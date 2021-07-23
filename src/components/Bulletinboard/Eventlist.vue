@@ -1,7 +1,7 @@
 <template>
   <v-sheet id="itemList" ref="itemList" color="transparent" class="itemColumn d-flex flex-column justify-start  ma-1">
     <v-card flat tile :color="settings.itemListHeaderColor" ref="eventListTitleCard" class="white--text ">
-      <v-card-title class="d-flex justify-space-between headline">
+      <v-card-title class="d-flex justify-space-between headline py-2">
         <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showPrevious')">mdi-calendar-arrow-left</v-icon>
         <h4 class="text-h5" :style="headerTextStyle" v-text="settings.itemListHeaderText"></h4>
         <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showNext')">mdi-calendar-arrow-right</v-icon>
@@ -55,8 +55,8 @@
           console.log(this.sheetHeight)
           list.style.setProperty('height', `${this.sheetHeight}`)
           list.style.setProperty('z-index', 1)
-          return
         }
+        return
         // const defaults = {
         //   header: 80,
         //   ticker: 70,

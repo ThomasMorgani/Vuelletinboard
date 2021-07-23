@@ -1,8 +1,8 @@
 <template>
   <v-app-bar app bottom :color="settings.tickerColor" :height="settings.tickerHeight" ref="ticker" class="d-flex align-center" :style="{ color: settings.tickerTextColor }">
-    <div class="d-flex flex-column  text-no-wrap">
-      <p class="text-subtitle-1 ma-0">{{ date }}</p>
-      <p class="text-h6 ma-0">{{ time }}</p>
+    <div class="d-flex flex-column  text-no-wrap ">
+      <p class="text-subtitle-1 ma-0 mt-2">{{ date }}</p>
+      <p class="text-h6 ma-0 mb-2">{{ time }}</p>
     </div>
     <v-divider vertical dark class="px-2"></v-divider>
     <v-icon class="flex-shrink-1 px-4" :color="settings.tickerTextColor">mdi mdi-newspaper</v-icon>
@@ -117,6 +117,7 @@
     },
     async created() {
       let items = []
+
       if (this?.settings?.tickerRss === 'custom') {
         items = this.settings.tickerFeed
       } else {
@@ -192,7 +193,7 @@
   }
   .marquee-text {
     // color: white;
-    font-size: x-large;
+    font-size: 2em;
   }
 
   @keyframes marquee {

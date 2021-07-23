@@ -27,9 +27,8 @@ export default new Vuex.Store({
     },
     settings: {},
     theme: {},
-    user: {
-      roles: ['admin', 'content', 'user'],
-    },
+    user: {},
+    roles: ['admin', 'content', 'user'],
     ticker: {},
   },
   getters: {
@@ -94,7 +93,12 @@ export default new Vuex.Store({
     async apiPost({ commit, state }, { endpoint, postData }) {
       let response = {}
       try {
-        response = await axios.post(`${process.env.VUE_APP_API_URL}${endpoint}`, postData)
+        response = await axios({
+          method: 'POST',
+          url: `${process.env.VUE_APP_API_URL}${endpoint}`,
+          headers: { 'content-type': 'multipart/form-data' },
+          data: postData,
+        })
       } catch (err) {
         response = err.response
       }

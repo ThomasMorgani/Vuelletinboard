@@ -7,7 +7,7 @@
       <v-card-text>
         <form action="">
           <v-row align="center" justify="center">
-            <v-col cols="12">
+            <v-col cols="12" class="pb-0">
               <v-text-field
                 v-model="itemEdit.content_title"
                 clearable
@@ -18,10 +18,13 @@
                 type="text"
               ></v-text-field>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" class="pt-0">
+              <v-text-field v-model="itemEdit.content_subtitle" clearable color="primary" hide-details label="Subtitle" type="text"></v-text-field>
+            </v-col>
+            <v-col cols="12" class="pb-0">
               <v-text-field v-model="itemEdit.content_desc" clearable color="primary" label="Description" type="text"></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" class="d-flex justify-center">
+            <v-col cols="12" sm="6" class="d-flex justify-center pt-0">
               <v-dialog ref="modalEventdate" v-model="modalEventdate" :return-value.sync="itemEdit.event_date" persistent width="290px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -51,6 +54,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="itemEdit.event_time"
+                    clearable
                     label="Event time"
                     prepend-icon="mdi-clock-time-four-outline"
                     :messages="timeDetail"
@@ -277,26 +281,19 @@
           .catch(err => console.log('error init:', err))
       },
       itemSave() {
-        console.log('save item')
+        this.setContentDate()
         let postData = new FormData()
         for (let key in this.itemEdit) {
           postData.append(key, this.itemEdit[key])
         }
         postData.append('mediaFile', this.mediaFile)
-        // const postData = { ...this.itemEdit, mediaFile: this.mediaFile }
-        this.$http
-          .post(`${process.env.VUE_APP_API_URL}manage/bulletinboard/update/`, postData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          })
-          .then(resp => {
-            console.log(resp)
-            const { data, message, status } = resp.data
-            if (status === 'success') {
-              this.$emit('itemSave', data)
-            }
-          })
+        this.$store.dispatch('apiPost', { endpoint: 'manage/bulletinboard/update/', postData }).then(resp => {
+          console.log(resp)
+          const { data, message, status } = resp
+          if (status === 'success') {
+            this.$emit('itemSave', data)
+          }
+        })
       },
       onMediaChange({ item, file }) {
         this.mediaFile = file
@@ -316,10 +313,17 @@
         this.itemEdit.user_friendly_scheduleStart = `${formats.dateHuman(startDate, true, false)} ${formats.timeHuman(startTime)} `
         this.modalSchedule = false
       },
+      setContentDate() {
+        let contentdate = ''
+        if (this.itemEdit.event_date) contentdate += this.itemEdit.event_date
+        if (this.itemEdit.event_time) contentdate += contentdate === null ? this.itemEdit.event_time : ` ${this.itemEdit.event_time}`
+        this.itemEdit.content_date = contentdate || null
+        return this.itemEdit.content_date
+      },
       setEventDatetime(dt) {
         const [date, time] = dt.split(' ')
-        this.itemEdit.event_date = date
-        this.itemEdit.event_time = time
+        this.itemEdit.event_date = date === '0000-00-00' ? null : date
+        this.itemEdit.event_time = time === '00:00:00' ? null : time
       },
       toggleSchedule() {
         if (this.scheduledFirst) {

@@ -118,22 +118,21 @@
         },
       },
       itemDefault: {
-        content_date: null,
         content_desc: null,
+        content_type: null,
+        content_scheduled_date: null,
+        content_title: null,
         content_media: null,
         content_media_type: null,
-        content_scheduled_date: null,
-        content_subtitle: null,
-        content_title: null,
-        content_type: null,
+        content_date: null,
         created_by: null,
         created_on: null,
         event_date: null,
         event_time: null,
         id: null,
+        visible: true,
         scheduleEnd: null,
         scheduleStart: null,
-        visible: true,
       },
       items: [],
       loading: true,
@@ -177,7 +176,7 @@
         },
         {
           text: 'VISIBLE',
-          value: 'content_visible',
+          value: 'content_media',
           align: 'center',
           sortable: false,
         },
@@ -264,7 +263,7 @@
       initialize() {
         this.loading = true
         this.$http
-          .get(`${process.env.VUE_APP_API_URL}Items/all`)
+          .get('https://eipl.org/bulletinboard/index.php/contentmanager/getAllArticles')
           .then(resp => {
             if (resp?.data?.length > 0) {
               this.items = resp.data.map(item => {
@@ -277,7 +276,7 @@
           .then(() => {
             this.loading = false
           })
-          .catch(err => console.log('error init:', err))
+          .catchAll(err => console.log('error init:', err))
       },
       initializeOffline() {
         const itemList = items
@@ -330,10 +329,9 @@
         //new item properties/values
         let ni = { ...item }
 
-        // ni.content_date = item.content_scheduled_date
-        // delete ni.content_scheduled_date
+        ni.content_date = item.content_scheduled_date
+        delete ni.content_scheduled_date
 
-        ni.id = parseInt(ni.id)
         ni.content_media_type = 'image'
 
         ni.scheduleEnd = item.visibleScheduleEnd === 'noschedule' ? null : item.visibleScheduleEnd
@@ -348,34 +346,19 @@
 
         ni.visible = item.visible == 1
         // console.log(ni)
-        if (item.id === '872') {
-          console.log(item)
-        }
         return ni
       },
       itemDelete(id) {
-        this.$store
-          .dispatch('apiGet', 'manage/Bulletinboard/delete/' + id)
-          .then(resp => {
-            console.log(resp)
-            if (resp?.status === 'success') {
-              this.items = this.items.filter(item => item.id !== id)
-            }
-            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-            this.onItemEditClose()
-          })
-          .catch(err => console.error(err))
+        this.items = this.items.filter(item => item.id !== id)
+        this.$store.dispatch('snackbar', { color: 'error', message: 'Item Deleted', value: true })
+        this.onItemEditClose()
       },
       itemNew() {
         this.modalItem = { item: { ...this.itemDefault }, show: true }
       },
       itemSave(item) {
         this.$store.dispatch('snackbar', { color: 'success', message: 'Item Saved', value: true })
-        item = this.itemNormalize(item)
-        console.log(item)
-        console.log([...this.items].filter(i => i.id === item.id))
-        this.items = [...this.items.filter(i => i.id !== item.id), item]
-        console.log([...this.items].filter(i => i.id === item.id))
+        this.items = [...this.items.filter(i => i.id !== item.id), { ...item }]
         this.modalItem = { item: { ...this.itemDefault }, show: false }
       },
       onFiltersClear() {
@@ -400,32 +383,14 @@
         this.modalMedia = { ...content }
       },
       onVisibilityToggle(item) {
-        this.$store
-          .dispatch('apiPost', {
-            endpoint: 'manage/Bulletinboard/update',
-            postData: {
-              id: item.id,
-              visible: item.visible == 0 ? 1 : 0,
-            },
-          })
-          .then(resp => {
-            console.log(resp)
-            if (resp?.status === 'success') {
-              //this.updateItem
-              this.items = [
-                ...this.items.map(i => {
-                  if (i.id === item.id) {
-                    console.log(i.id)
-                    console.log(item.id)
-                    i.visible = i.visible == 0 ? 1 : 0
-                  }
-                  return { ...i }
-                }),
-              ]
-            }
-            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-          })
-          .catch(err => console.error(err))
+        this.items = [...this.items].map(i => {
+          if (i.id === item.id) {
+            i.visible = i.visible == 0 ? 1 : 0
+            return i
+          } else {
+            return i
+          }
+        })
       },
       scheduleIcon(item) {
         if (item?.scheduleStart === 'noschedule' || item?.scheduleStart === 'ERROR' || item?.scheduleEnd === 'noschedule' || item?.scheduleEnd === 'ERROR') {
@@ -457,8 +422,8 @@
       },
     },
     created() {
-      this.initialize()
-      // this.initializeOffline()
+      // this.initialize()
+      this.initializeOffline()
     },
   }
 </script>

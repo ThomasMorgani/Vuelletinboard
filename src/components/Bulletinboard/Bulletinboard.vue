@@ -30,6 +30,7 @@
         width: 0,
       },
       intervalId: null,
+      pollIntervalId: null,
       isLoading: true,
     }),
     computed: {
@@ -105,9 +106,12 @@
     },
     beforeDestroy() {
       clearInterval(this.intervalId)
+      clearInterval(this.pollIntervalId)
     },
     mounted() {
       setTimeout(this.setHeight, 500)
+      const updateTimeout = 1000 * 60 * 10 //MOVE TO SETTINGS (curr 10min)
+      this.pollIntervalId = setInterval(this.init, updateTimeout)
     },
   }
 </script>

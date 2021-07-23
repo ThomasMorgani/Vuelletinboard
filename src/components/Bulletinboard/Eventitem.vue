@@ -2,8 +2,9 @@
   <v-card
     :elevation="isActive ? '6' : '1'"
     :color="isActive ? settings.itemColorActive : settings.itemColor"
-    height="200"
-    min-width="350"
+    :height="height"
+    :width="width"
+    max-width="450px"
     :outlined="isActive"
     tile
     @click="$emit('itemClicked', item)"
@@ -12,7 +13,7 @@
   >
     <v-card-title class="justify-start flex-shrink-1">
       <div>
-        <h3 v-text="item.content_title" class="text-left font-weight-bold  text-uppercase mb-0" :style="titleStyle"></h3>
+        <h3 v-text="item.content_title" class="text-left font-weight-bold title text-uppercase mb-0" :style="titleStyle"></h3>
         <p v-text="item.content_subtitle" class="text-left  description pr-4" :style="subtitleStyle"></p>
       </div>
     </v-card-title>
@@ -62,6 +63,9 @@
           color: this.isActive ? this.settings.itemTextFooterActive : this.settings.itemTextFooter,
         }
       },
+      height() {
+        return '150px'
+      },
       subtitleStyle() {
         return {
           color: this.isActive ? this.settings.itemTextSubtitleActive : this.settings.itemTextSubtitle,
@@ -71,6 +75,9 @@
         return {
           color: this.isActive ? this.settings.itemTextTitleActive : this.settings.itemTextTitle,
         }
+      },
+      width() {
+        return '100%'
       },
     },
     methods: {
@@ -91,9 +98,18 @@
   }
   .item {
     box-sizing: border-box;
+    word-wrap: break-word;
+  }
+  .title {
+    font-size: 1em;
+    font-weight: normal;
+    letter-spacing: 0.009375em;
+    line-height: 1rem;
+    font-family: 'Roboto', sans-serif;
+    word-break: break-word;
   }
   .description {
-    font-size: 1rem;
+    font-size: 1em;
     font-weight: normal;
     letter-spacing: 0.009375em;
     line-height: 1rem;

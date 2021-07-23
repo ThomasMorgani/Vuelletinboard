@@ -13,7 +13,8 @@
     </td>
     <!-- EVENT DATE -->
     <td class="text-left" :class="item.isPastitemDate ? 'error--text' : ''">
-      {{ item.user_friendly_scheduled_date }}
+      <!-- {{ item.user_friendly_scheduled_date }} -->
+      {{ timestampHuman(item.content_date) }}
     </td>
     <!-- MEDIA TYPE -->
     <td class="text-center">
@@ -23,7 +24,7 @@
     </td>
     <!-- VISIBILITY -->
     <td class="text-center">
-      <v-btn icon :color="item.isActive ? 'success' : 'error'" :loading="false" @click="$emit('visibilityToggle', item)">
+      <v-btn :key="item.visibibility" icon :color="visibility" :loading="false" @click="$emit('visibilityToggle', item)">
         <v-icon v-text="item.isActive ? 'mdi-eye' : 'mdi-eye-off'"></v-icon
       ></v-btn>
     </td>
@@ -50,11 +51,22 @@
 </template>
 
 <script>
+  import formats from '@/utils/formats'
   export default {
     props: {
       item: {
         type: Object,
         required: true,
+      },
+    },
+    computed: {
+      visibility() {
+        return this.item.isActive ? 'success' : 'error'
+      },
+    },
+    methods: {
+      timestampHuman(timestamp) {
+        return timestamp ? formats.timestampHuman(timestamp, false) : ''
       },
     },
   }
