@@ -126,7 +126,7 @@
         </form>
       </v-card-text>
       <v-card-actions>
-        <v-dialog v-model="modalDelete" persistent width="300">
+        <v-dialog v-model="modalDelete" persistent width="400">
           <template #activator="{attrs, on}">
             <v-btn v-bind="attrs" v-on="on" :disabled="!itemEdit.id" text color="error">
               Delete
@@ -137,7 +137,8 @@
               Delete Item
             </v-card-title>
             <v-card-text>
-              <p>Permanently delete item from list?</p>
+              <p class="text-body-1 font-weight-bold text-left mt-4">Permanently delete item from list?</p>
+              <v-checkbox label="Delete media" v-model="checkboxDeleteMedia"></v-checkbox>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="primary" @click="modalDelete = false">
@@ -201,6 +202,7 @@
     },
     data: () => ({
       btnLoading: null,
+      checkboxDeleteMedia: true,
       itemEdit: null,
       mediaFile: null,
       optionsVisibility: [
@@ -267,18 +269,18 @@
       itemDelete() {
         console.log('delete item')
         this.btnLoading = 'delete'
-        this.$http
-          .get(`${process.env.VUE_APP_API_URL}manage/bulletinboard/delete/${this.item.id}`)
+        const uri = `manage/Bulletinboard/delete/${this.item.id}${this.checkboxDeleteMedia ? '/1' : '/0'}`
+        this.$store
+          .dispatch('apiGet', uri)
           .then(resp => {
-            if (resp?.data) {
-              const { data, message, status } = resp.data
-              if (status === 'success') {
-                this.$emit('itemDelete', this.item.id)
-              }
-              //snackbar
+            console.log(resp)
+            if (resp?.status === 'success') {
+              this.$emit('itemDelete', this.item.id)
+              this.$emit('close')
             }
+            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
           })
-          .catch(err => console.log('error init:', err))
+          .catch(err => console.error(err))
       },
       itemSave() {
         this.setContentDate()
@@ -296,6 +298,7 @@
         })
       },
       onMediaChange({ item, file }) {
+        console.log(item, file)
         this.mediaFile = file
         this.itemEdit = { ...this.itemEdit, ...item }
       },

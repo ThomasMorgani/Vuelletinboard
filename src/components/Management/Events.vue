@@ -158,6 +158,12 @@
           value: 'content_title',
         },
         {
+          text: 'SUBTITLE',
+          align: 'start',
+          sortable: true,
+          value: 'content_subtitle',
+        },
+        {
           text: 'DESCRIPTION',
           value: 'content_desc',
           align: 'start',
@@ -324,6 +330,12 @@
           return false
         }
       },
+      itemDelete(id) {
+        this.items = this.items.filter(item => item.id !== id)
+      },
+      itemNew() {
+        this.modalItem = { item: { ...this.itemDefault }, show: true }
+      },
       itemNormalize(item) {
         //refactoring backend
         //this method will be removed when backend returns
@@ -334,7 +346,7 @@
         // delete ni.content_scheduled_date
 
         ni.id = parseInt(ni.id)
-        ni.content_media_type = 'image'
+        ni.content_media_type = ni.content_media_type && ni.content_media_type !== 'null' ? ni.content_media_type : 'image'
 
         ni.scheduleEnd = item.visibleScheduleEnd === 'noschedule' ? null : item.visibleScheduleEnd
         ni.user_friendly_scheduleEnd = item.user_friendly_visibleScheduleEnd === 'noschedule' ? null : item.user_friendly_visibleScheduleEnd
@@ -353,22 +365,7 @@
         }
         return ni
       },
-      itemDelete(id) {
-        this.$store
-          .dispatch('apiGet', 'manage/Bulletinboard/delete/' + id)
-          .then(resp => {
-            console.log(resp)
-            if (resp?.status === 'success') {
-              this.items = this.items.filter(item => item.id !== id)
-            }
-            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-            this.onItemEditClose()
-          })
-          .catch(err => console.error(err))
-      },
-      itemNew() {
-        this.modalItem = { item: { ...this.itemDefault }, show: true }
-      },
+
       itemSave(item) {
         this.$store.dispatch('snackbar', { color: 'success', message: 'Item Saved', value: true })
         item = this.itemNormalize(item)

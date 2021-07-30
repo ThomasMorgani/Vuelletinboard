@@ -2,6 +2,8 @@
   <tr>
     <!-- TITLE -->
     <td class="text-left font-weight-bold">{{ item.content_title }}</td>
+    <!-- SUBTITLE -->
+    <td class="text-left font-weight-medium">{{ item.content_subtitle }}</td>
     <!-- DESCRIPTION -->
     <td class="text-left">
       <v-tooltip top color="primary">

@@ -26,6 +26,7 @@
                   <v-select v-model="typeSelect" label="Source" :items="typeOptions" @change="onSelectChange"></v-select>
                   <v-text-field
                     v-if="typeSelect === 'URL'"
+                    :value="item.content_media"
                     clearable
                     :error-messages="!item.content_media ? 'Required' : null"
                     label="Url"
@@ -46,7 +47,16 @@
                     @click:clear="onClearFileInput"
                     @click="$refs.fileInput.$refs.input.click() || null"
                   ></v-text-field>
-                  <v-file-input v-show="false" v-model="file" ref="fileInput" label="File" :messages="item.content_media || ''" @change="onFileInputChange"></v-file-input>
+
+                  <v-file-input
+                    v-show="false"
+                    v-model="file"
+                    accept="image/*"
+                    ref="fileInput"
+                    label="File"
+                    :messages="item.content_media || ''"
+                    @change="onFileInputChange"
+                  ></v-file-input>
                 </v-col>
                 <v-col cols="6">
                   <v-card v-if="!previewSrc" flat height="100%" width="100%" class="d-flex flex-column align-center justify-space-around">
@@ -190,17 +200,16 @@
         if (file) {
           this.inputUrl = URL.createObjectURL(file)
           URL.revokeObjectURL(file)
-          this.$emit('mediaChange', { item: { content_media: this.inputUrl, content_media_type: 'image_url' }, file: this.file })
+          this.$emit('mediaChange', { item: { content_media: this.inputUrl, content_media_type: 'image' }, file: this.file })
         }
       },
       onSelectChange() {
         this.inputUrl = null
-        this.$emit('mediaChange', { item: { content_media: null, content_media_type: 'image_url' } })
+        //TODO: add method when additional media types are implemented
+        this.$emit('mediaChange', { item: { content_media: null, content_media_type: this.typeSelect === 'URL' ? 'image_url' : 'image' } })
       },
       onUrlInputChange(url) {
         if (url) {
-          console.log('xx')
-          console.log(url)
           // this.inputUrl = URL.createObjectURL(file)
           // URL.revokeObjectURL(file)
           this.$emit('mediaChange', { item: { content_media: url, content_media_type: 'image_url' } })
@@ -210,7 +219,7 @@
     created() {
       if (this.item?.content_media_type === 'image_url') {
         this.typeSelect = 'URL'
-        this.inputUrl = this.item.content_media
+        // this.inputUrl = this.item.content_media
       }
     },
   }

@@ -21,7 +21,19 @@
       },
       src() {
         const isUrl = this.item?.content_media?.includes('/')
-        return this.item.content_media_type === 'image_url' ? this.item.content_media : `${process.env.VUE_APP_MEDIA_URL}${this.item.content_media}`
+        //url
+        const mediaType = this.item.content_media_type
+        if (mediaType === 'image_url') {
+          return this.item.content_media
+        }
+
+        //blob
+        if (this.item.content_media.includes('blob:')) {
+          return this.item.content_media
+        } else {
+          //upload
+          return `${process.env.VUE_APP_MEDIA_URL}${this.item.content_media}`
+        }
       },
     },
     methods: {},
