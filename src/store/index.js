@@ -33,10 +33,12 @@ export default new Vuex.Store({
   },
   getters: {
     isAdmin(state) {
-      return state?.user?.roles?.indexOf('admin') > -1
+      return true
+      // return state?.user?.roles?.indexOf('admin') > -1
     },
     isAuth(state) {
-      return state?.user?.roles?.indexOf('user') > -1
+      return true
+      // return state?.user?.roles?.indexOf('user') > -1
     },
     settingsByCat(state) {
       const settings = {

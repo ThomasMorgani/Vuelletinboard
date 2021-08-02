@@ -4,7 +4,7 @@
     <v-btn text class="secondary--text" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
     <v-btn text class="secondary--text" :to="{ name: 'Manage' }"> <v-icon left>mdi-clipboard-text</v-icon>Content </v-btn>
     <v-btn v-if="isAdmin" text class="secondary--text" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
-    <v-menu v-model="userMenu" bottom :close-on-content-click="false" offset-y open-on-hover>
+    <v-menu v-model="userMenu" bottom :close-on-content-click="false" offset-y open-on-hover @input="onInput">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="secondary" text v-bind="attrs" v-on="on"> <v-icon left>mdi-account-circle</v-icon>Profile </v-btn>
       </template>
@@ -49,6 +49,12 @@
     }),
     computed: {
       ...mapGetters(['isAdmin', 'isAuth', 'settingsByCat']),
+    },
+    methods: {
+      //emit menu state so parent menu can track visibility
+      onInput(isVisible) {
+        this.$emit('onProfileMenu', isVisible)
+      },
     },
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
-  <v-app-bar app :color="color" :height="height" ref="header" @mouseenter="menuShow = !menuShow" @mouseleave="menuShow = !menuShow" :style="textStyle">
+  <v-app-bar app :color="color" :height="height" ref="header" @mouseenter="toggleItems" @mouseleave="toggleItems" :style="textStyle">
     <v-toolbar-title @click="menuShow = !menuShow" v-text="text" class="text-h5"></v-toolbar-title>
-    <ToolbarItems v-if="showMenu"></ToolbarItems>
+    <ToolbarItems v-if="showMenu" @onProfileMenu="onProfileMenu"></ToolbarItems>
   </v-app-bar>
 </template>
 
@@ -13,6 +13,7 @@
     components: { ToolbarItems },
     data: () => ({
       menuShow: false,
+      profileMenu: false,
       // titlebarimg: '/images/banner33.jpg',
     }),
     computed: {
@@ -41,6 +42,19 @@
       theme() {
         const { dark, light } = this.$vuetify.theme.themes
         return this.isDark ? dark : light
+      },
+    },
+    methods: {
+      onProfileMenu(isVisible) {
+        this.profileMenu = isVisible
+        if (!isVisible) {
+          this.menuShow = false
+        }
+      },
+      toggleItems() {
+        if (!this.profileMenu) {
+          this.menuShow = !this.menuShow
+        }
       },
     },
   }
