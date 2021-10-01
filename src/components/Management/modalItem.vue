@@ -138,7 +138,7 @@
             </v-card-title>
             <v-card-text>
               <p class="text-body-1 font-weight-bold text-left mt-4">Permanently delete item from list?</p>
-              <v-checkbox label="Delete media" v-model="checkboxDeleteMedia"></v-checkbox>
+              <v-checkbox :disabled="checkboxDeleteMediaDisabled" label="Delete media" v-model="checkboxDeleteMedia"></v-checkbox>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="primary" @click="modalDelete = false">
@@ -227,6 +227,9 @@
       scheduledFirst: true,
     }),
     computed: {
+      checkboxDeleteMediaDisabled() {
+        return this.itemEdit?.content_media_type !== 'image'
+      },
       dateDetail() {
         if (!this.itemEdit.event_date) {
           return 'No event date'
@@ -271,7 +274,7 @@
         this.btnLoading = 'delete'
         const uri = `manage/Bulletinboard/delete/${this.item.id}${this.checkboxDeleteMedia ? '/1' : '/0'}`
         this.$store
-          .dispatch('apiGet', uri)
+          .dispatch('apiGet', { endpoint: uri })
           .then(resp => {
             console.log(resp)
             if (resp?.status === 'success') {
@@ -292,6 +295,8 @@
         this.$store.dispatch('apiPost', { endpoint: 'manage/bulletinboard/update/', postData }).then(resp => {
           console.log(resp)
           const { data, message, status } = resp
+          this.$store.dispatch('snackbar', { color: status, message: message, value: true })
+
           if (status === 'success') {
             this.$emit('itemSave', data)
           }
@@ -353,6 +358,10 @@
       if (isScheduled) {
         this.scheduled = true
         this.scheduledFirst = false
+      }
+
+      if (this.checkboxDeleteMediaDisabled) {
+        this.checkboxDeleteMedia = false
       }
 
       setTimeout(() => (this.modalDelete = this.showDelete), 500)

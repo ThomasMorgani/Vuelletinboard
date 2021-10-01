@@ -14,7 +14,7 @@
       </v-tooltip>
     </td>
     <!-- EVENT DATE -->
-    <td class="text-left" :class="item.isPastitemDate ? 'error--text' : ''">
+    <td class="text-left" :class="item.isPastItemDate ? 'error--text' : ''">
       <!-- {{ item.user_friendly_scheduled_date }} -->
       {{ timestampHuman(item.content_date) }}
     </td>

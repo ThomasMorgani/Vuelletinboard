@@ -21,7 +21,7 @@
             <ColorsSettings class="mt-2"></ColorsSettings>
           </v-sheet>
         </v-tab-item>
-        <v-tab-item value="users" disabled>USERS </v-tab-item>
+        <v-tab-item value="users" disabled><UserSettings /> </v-tab-item>
       </v-tabs-items>
     </v-card-text>
   </v-card>
@@ -29,11 +29,12 @@
 
 <script>
   import ColorsSettings from '@/components/Settings/App/Colors'
-  import GeneralSettings from '@/components/Settings/App/General'
   import ContentSettings from '@/components/Settings/Content'
+  import GeneralSettings from '@/components/Settings/App/General'
+  import UserSettings from '@/components/Settings/Users'
   export default {
     name: 'Settings',
-    components: { ColorsSettings, ContentSettings, GeneralSettings },
+    components: { ColorsSettings, ContentSettings, GeneralSettings, UserSettings },
     data: () => ({
       isLoading: true,
       isScrolling: true,
@@ -71,7 +72,7 @@
       if (view) {
         this.tabs = view
       }
-      const settings = await this.$store.dispatch('apiGet', 'manage/settings')
+      const settings = await this.$store.dispatch('apiGet', { endpoint: 'manage/settings' })
       if (settings) {
         await this.$store.dispatch('settingsSet', settings)
       }

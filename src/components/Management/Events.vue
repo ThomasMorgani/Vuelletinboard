@@ -31,7 +31,7 @@
         <v-col>
           <v-card flat height="8rem" max-height="8rem" class="d-flex align-content-space-between flex-wrap">
             <v-btn block color="primary" @click="itemNew"> <v-icon left>mdi-plus </v-icon> ADD NEW </v-btn>
-            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable> </v-text-field>
+            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" :messages="searchInputMessage" clearable> </v-text-field>
           </v-card>
         </v-col>
       </v-row>
@@ -41,10 +41,10 @@
         :loading="loading"
         :headers="tableHeaders"
         :items="itemsList"
-        :search="search"
+        :hint="search"
         hide-default-footer
         :options.sync="tableOptions"
-        height="65vh"
+        :height="tableHeight"
         fixed-header
         class="elevation-1 mt-2"
       >
@@ -122,7 +122,6 @@
         content_desc: null,
         content_media: null,
         content_media_type: null,
-        content_scheduled_date: null,
         content_subtitle: null,
         content_title: null,
         content_type: null,
@@ -211,17 +210,26 @@
       counts() {
         const counts = {
           active: 0,
+          hidden: 0,
           pastDate: 0,
+          pastDateActive: 0,
           scheduledActive: 0,
           scheduledExpired: 0,
           scheduledPending: 0,
+          totalItems: this.itemsList.length || 0,
         }
         this.itemsList.forEach(item => {
           if (item.isActive) {
             counts.active++
           }
-          if (item.isPastitemDate) {
-            counts.pastDate++
+          if (!item.isActive) {
+            counts.hidden++
+          }
+          // if (item.isPastItemDate) {
+          //   counts.pastDate++
+          // }
+          if (item.isPastItemDateActive) {
+            counts.pastDateActive++
           }
           if (item.isScheduleActive) {
             counts.scheduledActive++
@@ -244,23 +252,47 @@
         let list = this.items.map(item => {
           item.isActive = this.isActive(item)
           item.isHidden = !item.isActive
-          item.isPastitemDate = this.isPastitemDate(item)
+          item.isPastItemDate = this.isPastItemDate(item)
+          item.isPastItemDateActive = this.isPastItemDateActive(item)
           item.isScheduleActive = this.isScheduleActive(item)
           item.isScheduleExpired = this.isScheduleExpired(item)
           item.isSchedulePending = this.isSchedulePending(item)
           item.scheduleIconData = this.scheduleIcon(item)
           return item
         })
+        //filter toggled filters
         for (let filter in this.filters) {
           if (this.filters[filter].value) {
             list = [...list].filter(item => item[filter])
           }
         }
+
+        //filter search input
+        const fields = ['content_desc', 'content_subtitle', 'content_title']
+        if (this.search) {
+          //title //subtitle //desc
+          list = [...list].filter(item => {
+            let hasMatch = false
+            fields.forEach(field => {
+              if (item[field] && item[field].toLowerCase().includes(this.search.toLowerCase())) hasMatch = true
+            })
+            return hasMatch
+          })
+        }
+
         return list
       },
       now() {
         const currentDt = new Date()
         return currentDt
+      },
+      searchInputMessage() {
+        return `Items displayed: ${this.itemsList.length || 0}\\${this.items.length || 0}`
+      },
+      tableHeight() {
+        let height = this.$vuetify.breakpoint.height || 800
+        height = height - this.$vuetify.application.top - 300
+        return height
       },
     },
     methods: {
@@ -269,11 +301,11 @@
       },
       initialize() {
         this.loading = true
-        this.$http
-          .get(`${process.env.VUE_APP_API_URL}Items/all`)
+        this.$store
+          .dispatch('apiGet', { endpoint: 'Items/all' })
           .then(resp => {
-            if (resp?.data?.length > 0) {
-              this.items = resp.data.map(item => {
+            if (resp?.length > 0) {
+              this.items = resp.map(item => {
                 item = this.itemNormalize(item)
                 item.scheduleIconData = this.scheduleIcon(item)
                 return item
@@ -297,10 +329,18 @@
       isActive(item) {
         return item.visible == true
       },
-      isPastitemDate(item) {
-        if (item.content_scheduled_date) {
-          const itemDate = new Date(item.content_scheduled_date)
+      isPastItemDate(item) {
+        if (item.content_date) {
+          const itemDate = new Date(item.content_date)
           return itemDate < this.now
+        } else {
+          return false
+        }
+      },
+      isPastItemDateActive(item) {
+        if (item.content_date) {
+          const itemDate = new Date(item.content_date)
+          return itemDate < this.now && item.visible === true
         } else {
           return false
         }
@@ -342,8 +382,8 @@
         //new item properties/values
         let ni = { ...item }
 
-        // ni.content_date = item.content_scheduled_date
-        // delete ni.content_scheduled_date
+        // ni.content_date = item.content_date
+        // delete ni.content_date
 
         ni.id = parseInt(ni.id)
         ni.content_media_type = ni.content_media_type && ni.content_media_type !== 'null' ? ni.content_media_type : 'image'
@@ -359,20 +399,12 @@
         delete ni.user_friendly_visibleScheduleStart
 
         ni.visible = item.visible == 1
-        // console.log(ni)
-        if (item.id === '872') {
-          console.log(item)
-        }
         return ni
       },
 
       itemSave(item) {
-        this.$store.dispatch('snackbar', { color: 'success', message: 'Item Saved', value: true })
         item = this.itemNormalize(item)
-        console.log(item)
-        console.log([...this.items].filter(i => i.id === item.id))
         this.items = [...this.items.filter(i => i.id !== item.id), item]
-        console.log([...this.items].filter(i => i.id === item.id))
         this.modalItem = { item: { ...this.itemDefault }, show: false }
       },
       onFiltersClear() {
@@ -406,14 +438,11 @@
             },
           })
           .then(resp => {
-            console.log(resp)
             if (resp?.status === 'success') {
               //this.updateItem
               this.items = [
                 ...this.items.map(i => {
                   if (i.id === item.id) {
-                    console.log(i.id)
-                    console.log(item.id)
                     i.visible = i.visible == 0 ? 1 : 0
                   }
                   return { ...i }
@@ -460,8 +489,12 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .v-tab {
     min-width: unset;
+  }
+
+  >>> .v-messages {
+    /* text-align: right; */
   }
 </style>

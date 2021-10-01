@@ -213,7 +213,7 @@
           if (item.isActive) {
             counts.active++
           }
-          if (item.isPastitemDate) {
+          if (item.isPastItemDate) {
             counts.pastDate++
           }
           if (item.isScheduleActive) {
@@ -237,7 +237,7 @@
         let list = this.items.map(item => {
           item.isActive = this.isActive(item)
           item.isHidden = !item.isActive
-          item.isPastitemDate = this.isPastitemDate(item)
+          item.isPastItemDate = this.isPastItemDate(item)
           item.isScheduleActive = this.isScheduleActive(item)
           item.isScheduleExpired = this.isScheduleExpired(item)
           item.isSchedulePending = this.isSchedulePending(item)
@@ -290,7 +290,7 @@
       isActive(item) {
         return item.visible == true
       },
-      isPastitemDate(item) {
+      isPastItemDate(item) {
         if (item.content_scheduled_date) {
           const itemDate = new Date(item.content_scheduled_date)
           return itemDate < this.now

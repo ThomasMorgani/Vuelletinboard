@@ -47,11 +47,13 @@
         settings: state => state.item,
       }),
       activeStyle() {
-        const primary = this.$vuetify.theme.themes.light.primary
-        return {
-          'border-right-color': primary,
-          'border-right-width': '8px',
-        }
+        // TODO: Add border option
+        // const primary = this.$vuetify.theme.themes.light.primary
+        // return {
+        //   'border-right-color': primary,
+        //   'border-right-width': '8px',
+        // }
+        return ''
       },
       descriptionStyle() {
         return {

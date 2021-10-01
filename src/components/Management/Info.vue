@@ -1,14 +1,14 @@
 <template>
   <v-card flat>
-    <v-card-title class="subheading primary--text pt-1 pb-2 pl-0 ">
-      DETAILS
+    <v-card-title class="justify-space-between pt-1 pb-2 pl-0 ">
+      <div class="primary--text">DETAILS</div>
+      <!-- <div class="text-h6">{{ `Total: ${counts.totalItems}` }}</div> -->
     </v-card-title>
     <!-- <v-card :height="100"> -->
     <v-card-text class="d-flex  flex-wrap align-start justify-start">
-          <v-sheet  v-for="item in countsDisplayed" :key="item.item" class="d-flex align-center justify-start pa-1 mr-4"
-            ><v-icon small :color="item.color" left> {{ item.icon }}</v-icon> {{ `${item.count} ${item.text}` }}</v-sheet
-          >
-        </v-sheet>
+      <v-sheet v-for="item in countsDisplayed" :key="item.item" class="d-flex align-center justify-start pa-1 mr-4"
+        ><v-icon small :color="item.color" left> {{ item.icon }}</v-icon> {{ `${item.count} ${item.text}` }}</v-sheet
+      >
     </v-card-text>
   </v-card>
 </template>
@@ -18,7 +18,19 @@
     name: 'Info',
     props: {
       counts: {
+        active: {
+          type: Number,
+          required: true,
+        },
+        hidden: {
+          type: Number,
+          required: true,
+        },
         pastDate: {
+          type: Number,
+          required: true,
+        },
+        pastDateActive: {
           type: Number,
           required: true,
         },
@@ -30,11 +42,11 @@
           type: Number,
           required: true,
         },
-        scheduledExpired: {
+        scheduledPending: {
           type: Number,
           required: true,
         },
-        active: {
+        totalItems: {
           type: Number,
           required: true,
         },
@@ -47,10 +59,21 @@
           icon: 'mdi-eye',
           text: 'Visible ',
         },
+        hidden: {
+          color: 'error',
+          icon: 'mdi-eye-off',
+          text: 'Hidden ',
+        },
+
         pastDate: {
           color: 'error',
           icon: 'mdi-timer-sand',
-          text: 'Visible post event date',
+          text: 'Visible events ended',
+        },
+        pastDateActive: {
+          color: 'error',
+          icon: 'mdi-timer-sand',
+          text: 'Visible events ended',
         },
         scheduledActive: {
           color: 'success',
@@ -73,7 +96,7 @@
       countsDisplayed() {
         let counts = {}
         for (let item in this.counts) {
-          if (this.counts[item] > 0) {
+          if (item !== 'totalItems' && this.counts[item] > 0) {
             counts[item] = { ...this.items[item], count: this.counts[item], item }
           }
         }

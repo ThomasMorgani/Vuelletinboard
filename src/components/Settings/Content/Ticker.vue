@@ -318,7 +318,7 @@
     },
     created() {},
     async mounted() {
-      const data = await this.$store.dispatch('apiGet', 'manage/settings/feed')
+      const data = await this.$store.dispatch('apiGet', { endpoint: 'manage/settings/feed' })
       this.feedOptions = data?.feedOptions ? data.feedOptions.map(o => ({ ...o, filter: JSON.parse(o.filter) })) : []
       this.filterKeywords = data?.filterKeywords ? [...data.filterKeywords] : []
       this.revertSettings()

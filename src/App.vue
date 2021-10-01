@@ -5,7 +5,8 @@
       <v-progress-circular v-if="appLoading" color="primary" indeterminate></v-progress-circular>
       <router-view v-else />
       <v-snackbar :value="snackbar.value" v-bind="snackbar.options" @input="snackbar = $event" content-class="font-weight-bold">
-        {{ snackbar.message }}
+        <!-- {{ snackbar.message }} -->
+        <span v-html="snackbar.message"></span>
 
         <template v-slot:action="{ attrs }">
           <v-btn icon v-bind="attrs" @click="snackbar = false">
@@ -86,6 +87,10 @@
     font-size: 62.5%;
     margin: 0;
     padding: 0;
+  }
+
+  p {
+    margin: 0;
   }
 
   .titlebartext {

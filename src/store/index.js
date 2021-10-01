@@ -37,7 +37,7 @@ export default new Vuex.Store({
       // return state?.user?.roles?.indexOf('admin') > -1
     },
     isAuth(state) {
-      return true
+      return state.user.id
       // return state?.user?.roles?.indexOf('user') > -1
     },
     settingsByCat(state) {
@@ -79,10 +79,14 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async apiGet({ commit, state }, endpoint) {
+    async apiGet({ commit, state }, { endpoint, baseurl }) {
+      const options = {
+        withCredentials: true,
+      }
+      baseurl = baseurl || process.env.VUE_APP_API_URL
       let response = {}
       try {
-        response = await axios.get(`${process.env.VUE_APP_API_URL}${endpoint}`)
+        response = await axios.get(`${baseurl}${endpoint}`, options)
       } catch (err) {
         response = err.response
         console.log(err)
@@ -92,14 +96,17 @@ export default new Vuex.Store({
       }
       return response.data
     },
-    async apiPost({ commit, state }, { endpoint, postData }) {
+    async apiPost({ commit, state }, { baseurl, endpoint, postData }) {
+      baseurl = baseurl || process.env.VUE_APP_API_URL
+      const options = {}
       let response = {}
       try {
         response = await axios({
-          method: 'POST',
-          url: `${process.env.VUE_APP_API_URL}${endpoint}`,
-          headers: { 'content-type': 'multipart/form-data' },
           data: postData,
+          headers: { 'content-type': 'multipart/form-data' },
+          method: 'POST',
+          url: `${baseurl}${endpoint}`,
+          withCredentials: true,
         })
       } catch (err) {
         response = err.response
@@ -109,11 +116,18 @@ export default new Vuex.Store({
       }
       return response.data
     },
+    checkAuth({ commit, dispatch }) {
+      return axios.get(process.env.VUE_APP_API_AUTH_URL, { withCredentials: true })
+    },
+
     headerSet({ commit }, header) {
       commit('COMMIT_HEADER', header)
     },
+
     async init({ commit, dispatch, state }, $vuetify) {
-      const data = await dispatch('apiGet', '')
+      console.log('inittt')
+      const data = await dispatch('apiGet', { baseurl: process.env.VUE_APP_API_PUBLIC_URL, endpoint: '' })
+      console.log(data)
       if (data.app) {
         commit('COMMIT_APP', data.app)
       }
@@ -129,11 +143,17 @@ export default new Vuex.Store({
           dispatch('themeSet', { $vuetify, theme: data.theme })
         }
       }
+
+      if (data.user) {
+        commit('COMMIT_USER', data.user)
+      }
+
       commit('COMMIT_APPLOADING', false)
     },
     async initBulletinboard({ dispatch, commit }) {
-      const endpoint = 'bulletinboard'
-      const data = await dispatch('apiGet', endpoint)
+      const endpoint = 'board'
+      const data = await dispatch('apiGet', { baseurl: process.env.VUE_APP_API_PUBLIC_URL, endpoint })
+      console.log(data)
       if (data && typeof data === 'object') {
         for (let item in data) {
           const mutation = `COMMIT_${item.toUpperCase()}`
@@ -161,6 +181,9 @@ export default new Vuex.Store({
         commit('COMMIT_SETTINGS', { ...state.settings, ...settings })
         res()
       })
+    },
+    setUserdata({ commit }, data) {
+      commit('COMMIT_USER', data)
     },
     snackbar({ commit, state }, { color, message, value }) {
       // toggleSnackbar(color, message, value) {
@@ -215,6 +238,9 @@ export default new Vuex.Store({
     },
     COMMIT_THEME(state, theme) {
       state.theme = { ...theme }
+    },
+    COMMIT_USER(state, data) {
+      state.user = { ...data }
     },
   },
 })

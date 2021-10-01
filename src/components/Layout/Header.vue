@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app :color="color" :height="height" ref="header" @mouseenter="toggleItems" @mouseleave="toggleItems" :style="textStyle">
     <v-toolbar-title @click="menuShow = !menuShow" v-text="text" class="text-h5"></v-toolbar-title>
-    <ToolbarItems v-if="showMenu" @onProfileMenu="onProfileMenu"></ToolbarItems>
+    <ToolbarItems v-if="showMenu" @onProfileMenu="onProfileMenu" @logout="onLogout"></ToolbarItems>
   </v-app-bar>
 </template>
 
@@ -25,7 +25,7 @@
         return this.settings.appHeaderHeight || '80'
       },
       showMenu() {
-        return this.userMenu || (this.isAuth && this.menuShow)
+        return this.profileMenu || (this.isAuth && this.menuShow)
       },
       settings() {
         return this.$store.state.app
@@ -45,6 +45,16 @@
       },
     },
     methods: {
+      onLogout() {
+        this.$store.dispatch('apiGet', { baseurl: process.env.VUE_APP_API_AUTH_URL, endpoint: 'logout' }).then(resp => {
+          console.log(resp)
+          if (resp.status === 'success') {
+            this.$router.go({ name: 'Login' })
+          } else {
+            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
+          }
+        })
+      },
       onProfileMenu(isVisible) {
         this.profileMenu = isVisible
         if (!isVisible) {
