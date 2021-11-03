@@ -1,0 +1,9 @@
+{
+  "app": { "appName": "EIPL Bulletinboard", "appHeaderHeight": "80" },
+  "theme": {
+    "isDark": true,
+    "dark": { "primary": "#2C4776", "secondary": "#FDFDFD", "accent": "#FFFB31", "background": "#A1B2CC" },
+    "light": { "primary": "#2C4776", "secondary": "#FFFFFF", "accent": "#A1B2CC", "background": "#A1B2CC" }
+  },
+  "user": null
+}

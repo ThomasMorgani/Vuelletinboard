@@ -3,8 +3,8 @@
     <v-card-title class="primary--text">DELETE USER</v-card-title>
     <v-card-text class="d-flex flex-column justify-center">
       <UserCard v-bind="{ roles, showActions: false, user }"></UserCard>
-      <v-btn large outlined color="error" v-bind="btnDeleteState" @click="deleteUser" class="my-6">
-        <v-icon color="error" left>mdi-delete</v-icon>
+      <v-btn large color="error" v-bind="btnDeleteState" @click="deleteUser" class="font-weight-bold my-6 ">
+        <v-icon left>mdi-delete</v-icon>
 
         CONFIRM DELETE
       </v-btn>
@@ -27,7 +27,7 @@
     }),
     props: {
       roles: {
-        type: Array,
+        type: Object,
         required: true,
       },
       user: {
@@ -50,7 +50,6 @@
             endpoint: 'admin/user/delete/' + this.user.id,
           })
           .then(resp => {
-            console.log(resp)
             const { status, message, data } = resp
             this.$store.dispatch('snackbar', { color: status, message, value: true })
             if (status === 'success') {

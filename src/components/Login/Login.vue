@@ -67,7 +67,14 @@
               this.$store.dispatch('init', this.$vuetify)
               this.$store.dispatch('setUserdata', data)
               //route depending on role
-              this.$router.push({ name: 'Manage' })
+              console.log(data)
+              if (this.$route?.query?.dest) {
+                window.location.replace(decodeURI(this.$route.query.dest))
+              } else {
+                window.location.replace('https://www.eipl.org/staff')
+              }
+
+              // this.$router.push({ name: 'Manage' })
             } else {
               this.error = message
             }

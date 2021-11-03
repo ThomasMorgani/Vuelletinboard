@@ -1,7 +1,11 @@
-import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
+
+import userDemo from '../data/user_demo.json'
+import settingsApp from '../data/settings_app.json'
+import settingsBulletinboard from '../data/settings_bulletinboard.json'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -33,8 +37,8 @@ export default new Vuex.Store({
   },
   getters: {
     isAdmin(state) {
-      return true
-      // return state?.user?.roles?.indexOf('admin') > -1
+      // return true
+      return state?.user?.role?.indexOf('isAdmin') > -1
     },
     isAuth(state) {
       return state.user.id
@@ -79,54 +83,17 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async apiGet({ commit, state }, { endpoint, baseurl }) {
-      const options = {
-        withCredentials: true,
-      }
-      baseurl = baseurl || process.env.VUE_APP_API_URL
-      let response = {}
-      try {
-        response = await axios.get(`${baseurl}${endpoint}`, options)
-      } catch (err) {
-        response = err.response
-        console.log(err)
-      }
-      if (response?.status === 401) {
-        if (router?.currentRoute?.name !== 'Login') router.push({ name: 'Login', params: response })
-      }
-      return response.data
-    },
-    async apiPost({ commit, state }, { baseurl, endpoint, postData }) {
-      baseurl = baseurl || process.env.VUE_APP_API_URL
-      const options = {}
-      let response = {}
-      try {
-        response = await axios({
-          data: postData,
-          headers: { 'content-type': 'multipart/form-data' },
-          method: 'POST',
-          url: `${baseurl}${endpoint}`,
-          withCredentials: true,
-        })
-      } catch (err) {
-        response = err.response
-      }
-      if (response?.status === 401) {
-        if (router?.currentRoute?.name !== 'Login') router.push({ name: 'Login', params: response })
-      }
-      return response.data
-    },
     checkAuth({ commit, dispatch }) {
-      return axios.get(process.env.VUE_APP_API_AUTH_URL, { withCredentials: true })
+      return userDemo
     },
 
     headerSet({ commit }, header) {
       commit('COMMIT_HEADER', header)
     },
 
-    async init({ commit, dispatch, state }, $vuetify) {
+    async init({ commit, dispatch }, $vuetify) {
       console.log('inittt')
-      const data = await dispatch('apiGet', { baseurl: process.env.VUE_APP_API_PUBLIC_URL, endpoint: '' })
+      const data = settingsApp
       console.log(data)
       if (data.app) {
         commit('COMMIT_APP', data.app)
@@ -150,10 +117,9 @@ export default new Vuex.Store({
 
       commit('COMMIT_APPLOADING', false)
     },
-    async initBulletinboard({ dispatch, commit }) {
-      const endpoint = 'board'
-      const data = await dispatch('apiGet', { baseurl: process.env.VUE_APP_API_PUBLIC_URL, endpoint })
-      console.log(data)
+    async initBulletinboard({ commit }) {
+      console.log(settingsBulletinboard)
+      const data = settingsBulletinboard
       if (data && typeof data === 'object') {
         for (let item in data) {
           const mutation = `COMMIT_${item.toUpperCase()}`

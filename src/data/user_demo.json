@@ -1,0 +1,10 @@
+{
+  "email": "tmorgani@eipl.org",
+  "id": 1919,
+  "first": "Demo",
+  "last": "User",
+  "lastLogin": "1999-09-09 11:22:33",
+  "role": ["isAdmin", "vbSettingsBulletinboard", "vbSettingsApp", "vbContentManage"],
+  "status": 1,
+  "username": "demo"
+}

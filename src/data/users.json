@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "first_name": "Allyn",
+    "last_name": "Janisson",
+    "email": "ajanisson0@4shared.com",
+    "username": "ajanisson0@4shared.com",
+    "role": "user"
+  },
+  {
+    "id": 2,
+    "first_name": "Baryram",
+    "last_name": "Lebbern",
+    "email": "blebbern1@reference.com",
+    "username": "blebbern1@reference.com",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "first_name": "Owen",
+    "last_name": "Steely",
+    "email": "osteely2@digg.com",
+    "username": "osteely2@digg.com",
+    "role": "admin"
+  },
+  {
+    "id": 4,
+    "first_name": "Gusta",
+    "last_name": "Fairbourn",
+    "email": "gfairbourn3@ucoz.com",
+    "username": "gfairbourn3@ucoz.com",
+    "role": "user"
+  },
+  {
+    "id": 5,
+    "first_name": "Nonnah",
+    "last_name": "Charlesworth",
+    "email": "ncharlesworth4@cargocollective.com",
+    "username": "ncharlesworth4@cargocollective.com",
+    "role": "user"
+  },
+  {
+    "id": 6,
+    "first_name": "Horatius",
+    "last_name": "Tibbits",
+    "email": "htibbits5@msu.edu",
+    "username": "htibbits5@msu.edu",
+    "role": "user"
+  },
+  {
+    "id": 7,
+    "first_name": "Paten",
+    "last_name": "Bysshe",
+    "email": "pbysshe6@clickbank.net",
+    "username": "pbysshe6@clickbank.net",
+    "role": "admin"
+  },
+  {
+    "id": 8,
+    "first_name": "Melva",
+    "last_name": "Livens",
+    "email": "mlivens7@walmart.com",
+    "username": "mlivens7@walmart.com",
+    "role": "user"
+  },
+  {
+    "id": 9,
+    "first_name": "Ricki",
+    "last_name": "Dunstone",
+    "email": "rdunstone8@t-online.de",
+    "username": "rdunstone8@t-online.de",
+    "role": "user"
+  },
+  {
+    "id": 10,
+    "first_name": "Upton",
+    "last_name": "Bennion",
+    "email": "ubennion9@census.gov",
+    "username": "ubennion9@census.gov",
+    "role": "user"
+  },
+  {
+    "id": 11,
+    "first_name": "Erinna",
+    "last_name": "Hendrickson",
+    "email": "ehendricksona@icio.us",
+    "username": "ehendricksona@icio.us",
+    "role": "admin"
+  },
+  {
+    "id": 12,
+    "first_name": "Jereme",
+    "last_name": "Polley",
+    "email": "jpolleyb@digg.com",
+    "username": "jpolleyb@digg.com",
+    "role": "user"
+  },
+  {
+    "id": 13,
+    "first_name": "Lamar",
+    "last_name": "Mackerness",
+    "email": "lmackernessc@jalbum.net",
+    "username": "lmackernessc@jalbum.net",
+    "role": "user"
+  },
+  {
+    "id": 14,
+    "first_name": "Arleyne",
+    "last_name": "O'Mullaney",
+    "email": "aomullaneyd@simplemachines.org",
+    "username": "aomullaneyd@simplemachines.org",
+    "role": "user"
+  },
+  {
+    "id": 15,
+    "first_name": "Jeannette",
+    "last_name": "Winman",
+    "email": "jwinmane@macromedia.com",
+    "username": "jwinmane@macromedia.com",
+    "role": "user"
+  },
+  {
+    "id": 16,
+    "first_name": "Myrvyn",
+    "last_name": "Brunotti",
+    "email": "mbrunottif@home.pl",
+    "username": "mbrunottif@home.pl",
+    "role": "user"
+  },
+  {
+    "id": 17,
+    "first_name": "Vickie",
+    "last_name": "Bricklebank",
+    "email": "vbricklebankg@twitpic.com",
+    "username": "vbricklebankg@twitpic.com",
+    "role": "admin"
+  },
+  {
+    "id": 18,
+    "first_name": "Sofia",
+    "last_name": "Barles",
+    "email": "sbarlesh@omniture.com",
+    "username": "sbarlesh@omniture.com",
+    "role": "admin"
+  },
+  {
+    "id": 19,
+    "first_name": "Carl",
+    "last_name": "Stairmond",
+    "email": "cstairmondi@archive.org",
+    "username": "cstairmondi@archive.org",
+    "role": "user"
+  },
+  {
+    "id": 20,
+    "first_name": "Connie",
+    "last_name": "Garrelts",
+    "email": "cgarreltsj@etsy.com",
+    "username": "cgarreltsj@etsy.com",
+    "role": "user"
+  }
+]

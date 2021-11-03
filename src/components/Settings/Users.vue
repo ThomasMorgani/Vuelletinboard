@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <p v-if="isLoading">loading...</p>
-    <v-col v-else cols="11" md="7" lg="6" class="d-flex flex-column">
+    <v-col v-else cols="11" md="8" lg="6" class="d-flex flex-column">
       <!-- TEMP -->
       <!-- <v-dialog v-model="modalAddRole" width="500">
           <template v-slot:activator="{ on, attrs }">
@@ -28,36 +28,55 @@
             </v-card-actions>
           </v-card>
         </v-dialog> -->
-      <v-sheet>
-        <v-text-field
-          v-model="search"
-          clearable
-          color="primary"
-          label="Search"
-          outlined
-          placeholder=""
-          append-outer-icon="mdi-account-plus"
-          prepend-inner-icon="mdi-account-search"
-          type="text"
-          class=" mt-4"
-          @click:append-outer="userEdit()"
-        ></v-text-field>
-      </v-sheet>
+      <v-card flat tile>
+        <v-card-title class="pa-0">
+          <v-text-field
+            v-model="search"
+            clearable
+            color="primary"
+            label="Search"
+            outlined
+            placeholder=""
+            append-outer-icon="mdi-account-plus"
+            prepend-inner-icon="mdi-account-search"
+            type="text"
+            class=" mt-4"
+            @click:append-outer="userEdit()"
+          ></v-text-field>
+        </v-card-title>
+        <v-card-text class="cardContent pa-1 pr-8">
+          <transition-group name="slide-y-transition">
+            <UserCard
+              v-for="user in userList"
+              :key="user.id"
+              :roles="rolesByRole"
+              :user="user"
+              @userDelete="onUserDelete"
+              @userEdit="userEdit"
+              @userPassword="userPasswordReset"
+              @userRoleEdit="userRoleEdit"
+              @userStatusToggle="userStatusToggle"
+              class="mt-2"
+            ></UserCard>
+          </transition-group>
+        </v-card-text>
+      </v-card>
+      <!-- <v-sheet class="userSearch">
 
-      <UserCard
-        v-for="user in userList"
-        :key="user.id"
-        :roles="rolesByRole"
-        :user="user"
-        @userDelete="onUserDelete"
-        @userRoleEdit="userRoleEdit"
-        @userStatusToggle="userStatusToggle"
-        class="mt-2"
-      ></UserCard>
+      </v-sheet> -->
+
       <!-- MODAL -->
       <!-- Roles, Delete, Password  -->
       <v-dialog v-model="modalShow" max-width="600px" transition="dialog-transition">
-        <component :is="modalComp" v-bind="modalData" @modalClose="modalClose" @userAdded="onUserAdded" @userDeleted="onUserDeleted" @userRole="userRoleSet"></component>
+        <component
+          :is="modalComp"
+          v-bind="modalData"
+          @modalClose="modalClose"
+          @userAdded="onUserAdded"
+          @userUpdated="onUserUpdated"
+          @userDeleted="onUserDeleted"
+          @userRole="userRoleSet"
+        ></component>
       </v-dialog>
     </v-col>
   </v-row>
@@ -71,6 +90,7 @@
     components: {
       UserDelete: () => import('@/components/Settings/Users/UserDelete'),
       UserEdit: () => import('@/components/Settings/Users/UserEdit'),
+      UserPassword: () => import('@/components/Settings/Users/UserPassword'),
       UserRoles: () => import('@/components/Settings/Users/UserRoles'),
       UserCard,
     },
@@ -98,7 +118,7 @@
         return roles
       },
       userList() {
-        let users = this.users.sort((a, b) => a.last > b.last)
+        let users = this.users.sort((a, b) => a.last.toLowerCase() > b.last.toLowerCase())
         if (this.search) {
           const search = this.search.toLowerCase()
           users = users.filter(user => {
@@ -119,7 +139,6 @@
           .then(resp => {
             this.users = resp
             this.isLoading = false
-            console.log(resp)
           })
           .catch(err => console.log(err))
       },
@@ -130,7 +149,6 @@
             this.roles = resp.roles || []
             this.users = resp.users || []
             this.isLoading = false
-            console.log(resp)
           })
           .catch(err => console.log(err))
       },
@@ -144,23 +162,29 @@
         this.modalClose()
       },
       onUserDelete(user) {
-        console.log(user)
         this.modalComp = 'UserDelete'
-        this.modalData = { roles: this.roles, user }
+        this.modalData = { roles: this.rolesByRole, user }
         this.modalShow = true
       },
       onUserDeleted(userid) {
         this.users = [...this.users].filter(user => user.id !== userid)
         this.modalClose()
       },
+      onUserUpdated(user) {
+        this.users = [...this.users.filter(u => u.id != user.id), { ...user }]
+        this.modalClose()
+      },
       userEdit(user = {}) {
-        console.log(user)
         this.modalComp = 'UserEdit'
-        this.modalData = { user, roles: this.roles }
+        this.modalData = { baseurl: process.env.VUE_APP_API_ADMIN_URL, user, roles: this.roles }
+        this.modalShow = true
+      },
+      userPasswordReset(user) {
+        this.modalComp = 'UserPassword'
+        this.modalData = { user }
         this.modalShow = true
       },
       userRoleEdit({ user }) {
-        console.log(user)
         this.modalComp = 'UserRoles'
         this.modalData = { user, roles: this.roles }
         this.modalShow = true
@@ -169,21 +193,7 @@
         const user = this.users.find(u => u.id === userid)
         user.role = [...roles]
       },
-      // userRoleSave() {
-      //   console.log('userRoleSave')
-      //   this.$store.dispatch('apiPost', { baseurl: process.env.VUE_APP_API_ADMIN_URL, endpoint: 'admin/role/add', postData: this.newRole }).then(resp => {
-      //     console.log(resp)
-      //     if (resp?.status === 'success') {
-      //       this.roles.push(this.newRole)
-      //       this.newRole = { description: '', label: '', role: '' }
-      //     }
-      //     this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-      //   })
-      // },
       userStatusToggle(user) {
-        console.log(user)
-        //dispatch toggle,
-        //if success
         const status = user.status == '1' ? '0' : '1'
         this.$store
           .dispatch('apiPost', {
@@ -206,9 +216,27 @@
 </script>
 
 <style lang="css" scoped>
+  .cardContent {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .cardContent::-webkit-scrollbar {
+    display: none;
+  }
   .userSearch {
-    position: sticky;
-    top: 140px;
-    z-index: 3;
+    position: fixed;
+    top: 120px;
+    z-index: 1;
+    width: 100%;
+    left: 0;
+    padding: 0px 20px;
+    right: 100px;
+  }
+
+  .userList {
+    margin-bottom: 50px;
+    margin-top: 100px;
   }
 </style>
