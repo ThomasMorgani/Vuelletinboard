@@ -2,8 +2,6 @@
   <v-toolbar-items transition="scroll-y-transition" class="primary">
     <!-- <v-btn text class="secondary--text"> <v-icon left>mdi-plus</v-icon>Add New </v-btn> -->
     <v-btn v-if="hasRole('vbContentManage')" text class="secondary--text" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
-    <v-btn v-if="hasRole('covidTracker')" text class="secondary--text" :href="navLinks.covidTracker.href"> <v-icon left>mdi-virus</v-icon>Covid </v-btn>
-    <v-btn v-if="hasRole('vbContentManage')" text class="secondary--text" :to="{ name: 'Manage' }"> <v-icon left>mdi-clipboard-text</v-icon>Content </v-btn>
     <v-btn v-if="isAdmin" text class="secondary--text" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
     <v-menu v-model="userMenu" bottom :close-on-content-click="false" offset-y open-on-hover @input="onInput">
       <template v-slot:activator="{ on, attrs }">

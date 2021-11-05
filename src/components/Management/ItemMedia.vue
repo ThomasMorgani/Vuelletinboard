@@ -147,8 +147,19 @@
           value: 'text',
         },
       ],
-      typeOptions: ['UPLOAD', 'URL'],
-      typeSelect: 'UPLOAD',
+      typeOptions: [
+        {
+          disabled: true,
+          text: 'UPLOAD',
+          value: 'UPLOAD',
+        },
+        {
+          disabled: false,
+          text: 'URL',
+          value: 'URL',
+        },
+      ],
+      typeSelect: 'URL',
     }),
     computed: {
       test() {

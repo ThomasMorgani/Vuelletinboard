@@ -1,10 +1,15 @@
 <template>
   <v-sheet :color="settings.boardBackground" height="100%" ref="contentSheet" width="100%" class="contentSheet d-flex flex-no-wrap align-start justify-start">
     <!--EVENT LIST -->
-    <EventList v-if="!isLoading" @showNext="itemNext" @showPrevious="itemPrevious" @selectItem="itemSelect"></EventList>
+    <EventList v-if="!isLoading" @showNext="itemNext" @showPrevious="itemPrevious" @selectItem="itemSelect" class="mt-3"></EventList>
     <!--IMAGE -->
     <transition name="fade" mode="out-in">
-      <EventImage :key="displayedEventImage" :image="displayedEventImage" class="d-flex flex-grow-1 flex-shrink-0"></EventImage>
+      <EventImage
+        :key="displayedEvent.id"
+        :image="displayedEvent.content_media"
+        :isUrl="displayedEvent.content_media_type === 'image_url'"
+        class="d-flex flex-grow-1 flex-shrink-0"
+      ></EventImage>
     </transition>
   </v-sheet>
 </template>
@@ -40,8 +45,8 @@
         settings: state => state.board,
         ticker: state => state.ticker,
       }),
-      displayedEventImage() {
-        return this.items?.['0']?.content_media
+      displayedEvent() {
+        return this.items?.['0']
       },
     },
     methods: {
@@ -52,9 +57,10 @@
         this.isLoading = false
       },
       itemSelect(item) {
+        // const el = this.$el.querySelector(`#listItem${item.id}`)
         const el = this.$el.getElementsByClassName('eventTop')[0]
         if (el) {
-          el.scrollIntoView(true, { behavior: 'smooth' })
+          setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }), 500)
         }
         const items = [item, ...this.items.filter(i => i.id != item.id)]
         this.$store.dispatch('itemsSet', items)
@@ -82,9 +88,7 @@
         if (!cb || !time) {
           return
         }
-        if (this.intervalId) {
-          clearInterval(this.intervalId)
-        }
+        if (this.intervalId) clearInterval(this.intervalId)
         this.intervalId = setInterval(cb, time)
       },
       setHeight() {

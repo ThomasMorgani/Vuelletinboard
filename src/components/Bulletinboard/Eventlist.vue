@@ -8,7 +8,7 @@
       </v-card-title>
     </v-card>
     <div group class="itemList">
-      <div class="eventTop" v-if="items.length > 0"></div>
+      <v-sheet color="transparent" height="2" class="eventTop" v-if="items.length > 0"></v-sheet>
       <transition-group appear name="fade">
         <EventItem
           v-for="(item, idx) in items"
@@ -50,7 +50,6 @@
     methods: {
       setHeight() {
         const list = this.$refs.itemList.$el
-
         if (this.sheetHeight) {
           console.log(this.sheetHeight)
           list.style.setProperty('height', `${this.sheetHeight}`)

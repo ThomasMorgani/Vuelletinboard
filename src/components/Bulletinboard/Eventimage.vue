@@ -15,6 +15,10 @@
         type: String,
         default: () => 'bb_fallback_img.png',
       },
+      isUrl: {
+        type: Boolean,
+        default: () => false,
+      },
     },
     data: () => ({
       isError: false,
@@ -22,7 +26,7 @@
     }),
     computed: {
       imgSrc() {
-        return this.isError ? `${process.env.VUE_APP_MEDIA_URL}${this.fallback}` : `${process.env.VUE_APP_MEDIA_URL}${this.image}`
+        return this.isError ? `${process.env.VUE_APP_MEDIA_URL}${this.fallback}` : this.isUrl ? this.image : `${process.env.VUE_APP_MEDIA_URL}${this.image}`
       },
     },
   }

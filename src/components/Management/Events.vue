@@ -79,7 +79,7 @@
 </template>
 
 <script>
-  import items from '@/data/events.json'
+  import { items } from '@/data/events.json'
   import Info from '@/components/Management/Info'
   import Filters from '@/components/Management/Filters'
   import Legend from '@/components/Management/Legend'
@@ -134,6 +134,7 @@
         scheduleStart: null,
         visible: true,
       },
+
       items: [],
       loading: true,
       modalDelete: {
@@ -161,6 +162,7 @@
           align: 'start',
           sortable: true,
           value: 'content_subtitle',
+          width: 120,
         },
         {
           text: 'DESCRIPTION',
@@ -318,8 +320,8 @@
           .catch(err => console.log('error init:', err))
       },
       initializeOffline() {
-        const itemList = items
-        this.items = itemList.map(item => {
+        const savedItems = this.localStorageRead('items', true) || items
+        this.items = savedItems.map(item => {
           item = this.itemNormalize(item)
           item.scheduleIconData = this.scheduleIcon(item)
           return item
@@ -372,6 +374,7 @@
       },
       itemDelete(id) {
         this.items = this.items.filter(item => item.id !== id)
+        this.localStorageWrite('items', this.items, true)
       },
       itemNew() {
         this.modalItem = { item: { ...this.itemDefault }, show: true }
@@ -405,7 +408,16 @@
       itemSave(item) {
         item = this.itemNormalize(item)
         this.items = [...this.items.filter(i => i.id !== item.id), item]
+        this.localStorageWrite('items', this.items, true)
         this.modalItem = { item: { ...this.itemDefault }, show: false }
+      },
+      localStorageRead(key, isReference = false) {
+        const localData = localStorage.getItem(key)
+        return isReference && localData ? JSON.parse(localData) : localData
+      },
+      localStorageWrite(key, data, isReference = false) {
+        data = isReference ? JSON.stringify(data) : data
+        return localStorage.setItem(key, data)
       },
       onFiltersClear() {
         for (let filter in this.filters) {
@@ -429,29 +441,18 @@
         this.modalMedia = { ...content }
       },
       onVisibilityToggle(item) {
-        this.$store
-          .dispatch('apiPost', {
-            endpoint: 'manage/Bulletinboard/update',
-            postData: {
-              id: item.id,
-              visible: item.visible == 0 ? 1 : 0,
-            },
-          })
-          .then(resp => {
-            if (resp?.status === 'success') {
-              //this.updateItem
-              this.items = [
-                ...this.items.map(i => {
-                  if (i.id === item.id) {
-                    i.visible = i.visible == 0 ? 1 : 0
-                  }
-                  return { ...i }
-                }),
-              ]
+        let isVisible = true
+        this.items = [
+          ...this.items.map(i => {
+            if (i.id === item.id) {
+              i.visible = i.visible == 0 ? 1 : 0
+              isVisible = i.visible === 1
             }
-            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-          })
-          .catch(err => console.error(err))
+            return { ...i }
+          }),
+        ]
+        this.localStorageWrite('items', this.items, true)
+        this.$store.dispatch('snackbar', { color: 'success', message: `Item is now ${isVisible ? 'visible' : 'hidden'}.`, value: true })
       },
       scheduleIcon(item) {
         if (item?.scheduleStart === 'noschedule' || item?.scheduleStart === 'ERROR' || item?.scheduleEnd === 'noschedule' || item?.scheduleEnd === 'ERROR') {
@@ -483,8 +484,9 @@
       },
     },
     created() {
-      this.initialize()
-      // this.initializeOffline()
+      // this.initialize()
+      console.log('EVENTS --')
+      this.initializeOffline()
     },
   }
 </script>

@@ -72,49 +72,13 @@
     },
     methods: {
       savePassword() {
-        // this.submitted = true
-        this.$store
-          .dispatch('apiPost', {
-            baseurl: process.env.VUE_APP_API_AUTH_URL,
-            endpoint: `reset`,
-            postData: { currentPassword: this.currentPassword, newPassword: this.newPassword, username: this.user.username },
-          })
-          .then(resp => {
-            console.log(resp)
-            const { status, message, data } = resp
-            this.$store.dispatch('snackbar', { color: status, message, value: true })
-            if (status === 'success') {
-              console.log('passwd reset ')
-              this.currentPassword = null
-              this.newPassword = null
-            }
-          })
+        this.$store.dispatch('snackbar', { color: 'success', message: 'Password updated!', value: true })
+        this.currentPassword = null
+        this.newPassword = null
       },
       submitLogout() {
-        this.$store.dispatch('apiGet', { baseurl: process.env.VUE_APP_API_AUTH_URL, endpoint: 'logout' }).then(resp => {
-          console.log(resp)
-          if (resp.status === 'success') {
-            //LogoutUser
-            this.$router.push({ name: 'Login' })
-            this.$store.dispatch('setUserdata', {})
-          } else {
-            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-          }
-          // this.message = null
-          // this.$store.dispatch('apiGet', { baseurl: process.env.VUE_APP_API_AUTH_URL, endpoint: 'logout' }).then(resp => {
-          //   console.log(resp)
-          //   const { status, message, data } = resp
-          //   if (status === 'success') {
-          //     console.log('logout success!')
-          //     this.$router.push({ name: 'Login' })
-          //   } else {
-          //     this.message = message
-          //   }
-        })
+        this.$store.dispatch('logout')
       },
-    },
-    mou() {
-      if (!this.isLoggedIn) this.$router.push({ name: 'Login' })
     },
   }
 </script>

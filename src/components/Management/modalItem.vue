@@ -272,35 +272,14 @@
       itemDelete() {
         console.log('delete item')
         this.btnLoading = 'delete'
-        const uri = `manage/Bulletinboard/delete/${this.item.id}${this.checkboxDeleteMedia ? '/1' : '/0'}`
-        this.$store
-          .dispatch('apiGet', { endpoint: uri })
-          .then(resp => {
-            console.log(resp)
-            if (resp?.status === 'success') {
-              this.$emit('itemDelete', this.item.id)
-              this.$emit('close')
-            }
-            this.$store.dispatch('snackbar', { color: resp.status, message: resp.message, value: true })
-          })
-          .catch(err => console.error(err))
+        this.$emit('itemDelete', this.item.id)
+        this.$emit('close')
+        this.$store.dispatch('snackbar', { color: 'success', message: 'Item deleted!', value: true })
       },
       itemSave() {
         this.setContentDate()
-        let postData = new FormData()
-        for (let key in this.itemEdit) {
-          postData.append(key, this.itemEdit[key])
-        }
-        postData.append('mediaFile', this.mediaFile)
-        this.$store.dispatch('apiPost', { endpoint: 'manage/bulletinboard/update/', postData }).then(resp => {
-          console.log(resp)
-          const { data, message, status } = resp
-          this.$store.dispatch('snackbar', { color: status, message: message, value: true })
-
-          if (status === 'success') {
-            this.$emit('itemSave', data)
-          }
-        })
+        this.$store.dispatch('snackbar', { color: 'success', message: 'Item saved!', value: true })
+        this.$emit('itemSave', this.itemEdit)
       },
       onMediaChange({ item, file }) {
         console.log(item, file)

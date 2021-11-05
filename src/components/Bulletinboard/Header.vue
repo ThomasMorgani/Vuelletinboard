@@ -34,7 +34,7 @@
               <ThemeToggle></ThemeToggle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item a href="https://eipl.org/bulletinboard/user">
+          <v-list-item :to="{ name: 'User' }">
             <v-list-item-avatar>
               <v-icon color="primary">mdi-account-circle</v-icon>
             </v-list-item-avatar>
@@ -42,11 +42,11 @@
               <v-list-item-title class="font-weight-bold">PROFILE</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item a href="https://eipl.org/bulletinboard/login/logout">
+          <v-list-item>
             <v-list-item-avatar>
               <v-icon color="primary">mdi-logout-variant</v-icon>
             </v-list-item-avatar>
-            <v-list-item-content class="text-left primary--text">
+            <v-list-item-content class="text-left primary--text" :to="{ name: 'Logout' }">
               <v-list-item-title class=" font-weight-bold">LOGOUT</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -100,7 +100,7 @@
         return this.isBulletinboard && !this.settings.boardHeaderShow
       },
       showMenu() {
-        return this.userMenu || (this.isAuth && this.menuShow)
+        return true
       },
       settings() {
         return this.$store.state.header

@@ -247,22 +247,19 @@
     "itemTimeout": "7000"
   },
   "header": {
-    "boardHeaderColor": "#E6F3FB",
+    "boardHeaderColor": "#2c4776",
     "boardHeaderHeight": "50",
-    "boardHeaderTextColor": "#FF1196",
-    "boardHeaderImage": "https://eipl.org/images/banner3.jpg",
-    "boardHeaderText": "EIPL Bulletinboard",
+    "boardHeaderTextColor": "#ffffff",
+    "boardHeaderImage": "",
+    "boardHeaderText": "VULLETINBOARD",
     "boardHeaderContentAlign": "start",
     "boardHeaderShow": true,
-    "boardHeaderType": "image"
+    "boardHeaderType": "text"
   },
   "ticker": {
     "tickerColor": "#2C4776",
     "tickerFeed": null,
-    "tickerFilter": [
-      "LIVE:",
-      "WATCH:"
-    ],
+    "tickerFilter": ["LIVE:", "WATCH:"],
     "tickerHeight": "50",
     "tickerShow": true,
     "tickerSpeed": "4",

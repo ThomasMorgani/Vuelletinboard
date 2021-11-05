@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from '../router'
 
-import userDemo from '../data/user_demo.json'
+import demoUser from '../data/user_demo.json'
+import events from '../data/events.json'
 import settingsApp from '../data/settings_app.json'
 import settingsBulletinboard from '../data/settings_bulletinboard.json'
 
@@ -41,8 +41,7 @@ export default new Vuex.Store({
       return state?.user?.role?.indexOf('isAdmin') > -1
     },
     isAuth(state) {
-      return state.user.id
-      // return state?.user?.roles?.indexOf('user') > -1
+      return state.user.id !== undefined
     },
     settingsByCat(state) {
       const settings = {
@@ -83,8 +82,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    checkAuth({ commit, dispatch }) {
-      return userDemo
+    checkAuth({ state }) {
+      return state.user?.id !== null
     },
 
     headerSet({ commit }, header) {
@@ -92,11 +91,14 @@ export default new Vuex.Store({
     },
 
     async init({ commit, dispatch }, $vuetify) {
-      console.log('inittt')
-      const data = settingsApp
-      console.log(data)
+      const data = localStorage.getItem('settings_app') || settingsApp
       if (data.app) {
         commit('COMMIT_APP', data.app)
+      }
+
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 't'
+      if (isLoggedIn) {
+        data.user = demoUser
       }
 
       if (data.theme) {
@@ -114,12 +116,13 @@ export default new Vuex.Store({
       if (data.user) {
         commit('COMMIT_USER', data.user)
       }
-
       commit('COMMIT_APPLOADING', false)
     },
     async initBulletinboard({ commit }) {
-      console.log(settingsBulletinboard)
-      const data = settingsBulletinboard
+      const localData = localStorage.getItem('settings_bulletinboard') || false
+      const localItems = localStorage.getItem('items') || false
+      const data = localData ? JSON.parse(localData) : settingsBulletinboard
+      data.items = localItems ? JSON.parse(localItems) : events
       if (data && typeof data === 'object') {
         for (let item in data) {
           const mutation = `COMMIT_${item.toUpperCase()}`
@@ -132,6 +135,13 @@ export default new Vuex.Store({
     },
     itemsSet({ commit }, items) {
       commit('COMMIT_ITEMS', items)
+    },
+    logout({ commit }) {
+      commit('COMMIT_USER', {})
+      localStorage.removeItem('isLoggedIn')
+    },
+    resetDemo() {
+      console.log('reset all demo data, window.location.replace()')
     },
     settingsSet({ commit, state }, settingsValues) {
       return new Promise((res, rej) => {
