@@ -1,8 +1,11 @@
 <template>
   <v-toolbar-items transition="scroll-y-transition" class="primary">
     <!-- <v-btn text class="secondary--text"> <v-icon left>mdi-plus</v-icon>Add New </v-btn> -->
-    <v-btn v-if="hasRole('vbContentManage')" text class="secondary--text" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
-    <v-btn v-if="isAdmin" text class="secondary--text" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
+    <v-btn text class="secondary--text">DEMO: </v-btn>
+
+    <v-btn text class="secondary--text" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
+    <v-btn v-if="hasRole('vbContentManage')" text class="secondary--text" exact :to="{ name: 'Manage' }"> <v-icon left>mdi-clipboard-text</v-icon>Content </v-btn>
+    <v-btn v-if="hasRole('isAdmin')" text class="secondary--text" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
     <v-menu v-model="userMenu" bottom :close-on-content-click="false" offset-y open-on-hover @input="onInput">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="secondary" text v-bind="attrs" v-on="on"> <v-icon left>mdi-account-circle</v-icon>Profile </v-btn>
@@ -45,11 +48,7 @@
     name: 'ToolbarItems',
     components: { ThemeToggle },
     data: () => ({
-      navLinks: {
-        covidTracker: {
-          href: 'https://eipl.org/staff/covid/',
-        },
-      },
+      navLinks: {},
       userMenu: false,
     }),
     computed: {

@@ -2,16 +2,21 @@
   <v-sheet color="transparent" width="100%" height="100%" class="d-flex flex-column align-center justify-center">
     <v-card text type="info" width="400" style="position: absolute; top: 10px;">
       <v-card-title class="text-h5 font-weight-bold primary--text justify-center">DEMO</v-card-title>
-      <v-card-text class="d-flex flex-column align-start justify-center primary--text font-weight-bold">
+      <v-card-text class="d-flex flex-column align-center justify-center primary--text font-weight-bold">
         <p>
-          This is a demo version of the Vulletinboard App. Some features may be unavailable and any changes made to content persist only on your local machine.
+          This is a demo version of the Vulletinboard App.
+        </p>
+        <p>
+          Some features may be unavailable and any changes made to content persist only on your local machine.
         </p>
         <p>
           To get or contribute checkout:
           <a href="https://github.com/ThomasMorgani/Vulletinboard" target="blank" class=""> <v-icon color="primary" small class="mb-1 mr-1">mdi-github</v-icon>GITHUB</a>
         </p>
-        <v-sheet color="transparent" width="100%" class="d-flex justify-space-around primary--text"> <span>username: demo</span> <span>password: demo</span></v-sheet>
       </v-card-text>
+      <v-card-actions class="d-flex justify-space-around primary--text text-subtitle-1">
+        <span><strong>username:</strong> demo</span> <span><strong>password:</strong> demo</span>
+      </v-card-actions>
     </v-card>
 
     <v-card class="mt-6 " elevation="" max-width="80vw" width="400">
@@ -42,7 +47,6 @@
 </template>
 
 <script>
-  import userDemo from '../../data/user_demo.json'
   export default {
     name: 'Login',
     data: () => ({
@@ -72,9 +76,8 @@
         this.error = null
         const success = this.username === this.demoUsername && this.demoPassword === this.demoPassword
         if (success) {
-          localStorage.setItem('isLoggedIn', 't')
           this.$store.dispatch('init', this.$vuetify)
-          this.$store.dispatch('setUserdata', userDemo)
+          this.$store.dispatch('loginDemoUser')
           //todo: route depending on role
           if (this.$route?.query?.dest) {
             window.location.replace(decodeURI(this.$route.query.dest))
@@ -90,7 +93,7 @@
       console.log(this.isLoggedIn)
       const isLoggedIn = localStorage.getItem('isLoggedIn') === 't'
       if (isLoggedIn) {
-        this.$store.dispatch('setUserdata', userDemo)
+        this.$store.dispatch('loginDemoUser')
         this.$store.dispatch('init', this.$vuetify)
         this.$router.push({ name: 'User' })
       }

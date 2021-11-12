@@ -44,11 +44,13 @@
         :hint="search"
         hide-default-footer
         :options.sync="tableOptions"
+        :no-data-text="filtersCount > 0 ? 'No matching items for applied filters.' : 'No items found.'"
+        no-results-text="No matching items for search term."
         :height="tableHeight"
         fixed-header
         class="elevation-1 mt-2"
       >
-        <template v-slot:body="{ items }">
+        <template v-if="itemsList.length > 0" v-slot:body="{ items }">
           <tbody>
             <Row
               v-for="item in items"
@@ -61,9 +63,11 @@
             ></Row>
           </tbody>
         </template>
-        <template slot="no-data">
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
-        </template>
+        <!-- <template slot="no-data">
+          <tbody>
+          <v-btn color="primary" @click="initializeOffline">Reset</v-btn>
+          </tbody>
+        </template> -->
       </v-data-table>
       <ItemModal
         :key="modalItem.item.id + '' + modalItem.show"

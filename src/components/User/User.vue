@@ -19,7 +19,7 @@
               v-model="currentPassword"
               outlined
               color="primary"
-              @click:append="showCurrentPassword = !showPassword"
+              @click:append="showCurrentPassword = !showCurrentPassword"
             ></v-text-field>
             <v-text-field
               :append-icon="showNewPaswword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -28,7 +28,7 @@
               v-model="newPassword"
               outlined
               color="primary"
-              @click:append="showNewPaswword = !showPassword"
+              @click:append="showNewPaswword = !showNewPaswword"
             ></v-text-field>
             <v-btn block color="success" v-bind="btnState" @click="savePassword">
               UPDATE

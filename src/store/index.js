@@ -54,6 +54,7 @@ export default new Vuex.Store({
       }
       Object.keys(state.settings).forEach(setting => {
         const str = setting.substring(0, 3)
+        //TODO: map these to object
         switch (str) {
           case 'app':
             settings.app[setting] = state.settings[setting]
@@ -98,7 +99,7 @@ export default new Vuex.Store({
 
       const isLoggedIn = localStorage.getItem('isLoggedIn') === 't'
       if (isLoggedIn) {
-        data.user = demoUser
+        dispatch('loginDemoUser')
       }
 
       if (data.theme) {
@@ -111,10 +112,6 @@ export default new Vuex.Store({
           }
           dispatch('themeSet', { $vuetify, theme: data.theme })
         }
-      }
-
-      if (data.user) {
-        commit('COMMIT_USER', data.user)
       }
       commit('COMMIT_APPLOADING', false)
     },
@@ -130,18 +127,22 @@ export default new Vuex.Store({
         }
       }
     },
-    itemSet({ commit }, items) {
-      commit('COMMIT_ITEM', items)
+    itemSet({ commit }, item) {
+      commit('COMMIT_ITEM', item)
     },
     itemsSet({ commit }, items) {
       commit('COMMIT_ITEMS', items)
+    },
+    loginDemoUser({ commit }) {
+      localStorage.setItem('isLoggedIn', 't')
+      commit('COMMIT_USER', demoUser)
     },
     logout({ commit }) {
       commit('COMMIT_USER', {})
       localStorage.removeItem('isLoggedIn')
     },
     resetDemo() {
-      console.log('reset all demo data, window.location.replace()')
+      console.log('setup: reset all demo data, window.location.replace()')
     },
     settingsSet({ commit, state }, settingsValues) {
       return new Promise((res, rej) => {

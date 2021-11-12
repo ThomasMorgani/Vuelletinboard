@@ -4,7 +4,17 @@ import Store from '../store'
 
 Vue.use(VueRouter)
 
+//DEMO
+let isFirstLoad = true
 const checkAuth = (to, from, next) => {
+  if (isFirstLoad) {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 't'
+    if (isLoggedIn) {
+      Store.dispatch('loginDemoUser')
+      isFirstLoad = false
+      next()
+    }
+  }
   if (Store.getters.isAuth) next()
   else next({ name: 'Login' })
 }

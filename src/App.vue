@@ -65,6 +65,9 @@
     mounted() {
       this.$store.dispatch('init', this.$vuetify)
     },
+    created() {
+      console.log('App.vue created ')
+    },
   }
 </script>
 <style lang="scss">
