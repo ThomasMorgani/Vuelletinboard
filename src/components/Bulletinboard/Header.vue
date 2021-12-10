@@ -11,41 +11,45 @@
         <template v-if="showMenu">
           <!-- <v-btn text class="secondary--text"> <v-icon left>mdi-plus</v-icon>Add New </v-btn> -->
           <DemoResetBtn :color="textStyle.color" />
-          <v-btn text :color="textStyle.color" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
-          <v-btn text :color="textStyle.color" :to="{ name: 'Manage' }"> <v-icon left>mdi-clipboard-text</v-icon>Content </v-btn>
-          <v-btn v-if="isAdmin" text :color="textStyle.color" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
-          <v-menu v-model="userMenu" bottom :close-on-content-click="false" offset-y open-on-hover>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn :color="textStyle.color" text v-bind="attrs" v-on="on"> <v-icon left>mdi-account-circle</v-icon>Profile </v-btn>
-            </template>
-            <v-list dense>
-              <v-list-item>
-                <v-list-item-avatar>
-                  <v-icon color="primary">mdi-theme-light-dark</v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content class="text-center  primary--text">
-                  <ThemeToggle></ThemeToggle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item :to="{ name: 'User' }">
-                <v-list-item-avatar>
-                  <v-icon color="primary">mdi-account-circle</v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content class="text-left primary--text">
-                  <v-list-item-title class="font-weight-bold">PROFILE</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-avatar>
-                  <v-icon color="primary">mdi-logout-variant</v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content class="text-left primary--text" :to="{ name: 'Logout' }">
-                  <v-list-item-title class=" font-weight-bold">LOGOUT</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <template v-if="$store.getters.isAuth">
+            <v-btn text :color="textStyle.color" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
+            <v-btn text :color="textStyle.color" :to="{ name: 'Manage' }"> <v-icon left>mdi-clipboard-text</v-icon>Content </v-btn>
+            <v-btn v-if="isAdmin" text :color="textStyle.color" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
+            <v-menu v-model="userMenu" bottom :close-on-content-click="false" offset-y open-on-hover>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn :color="textStyle.color" text v-bind="attrs" v-on="on"> <v-icon left>mdi-account-circle</v-icon>Profile </v-btn>
+              </template>
+              <v-list dense>
+                <v-list-item>
+                  <v-list-item-avatar>
+                    <v-icon color="primary">mdi-theme-light-dark</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content class="text-center  primary--text">
+                    <ThemeToggle></ThemeToggle>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item :to="{ name: 'User' }">
+                  <v-list-item-avatar>
+                    <v-icon color="primary">mdi-account-circle</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content class="text-left primary--text">
+                    <v-list-item-title class="font-weight-bold">PROFILE</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-avatar>
+                    <v-icon color="primary">mdi-logout-variant</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content class="text-left primary--text" :to="{ name: 'Logout' }">
+                    <v-list-item-title class=" font-weight-bold">LOGOUT</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
+          <v-btn v-else text :color="textStyle.color" exact :to="{ name: 'Login' }"> <v-icon left>mdi-login</v-icon>Login </v-btn>
         </template>
+
         <v-btn icon @click="menuShow = !menuShow"> <v-icon :color="textStyle.color" v-text="showMenu ? 'mdi-format-horizontal-align-right' : 'mdi-menu-open'"></v-icon> </v-btn>
       </v-toolbar-items>
     </v-scroll-y-transition>

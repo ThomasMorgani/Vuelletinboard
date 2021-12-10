@@ -26,7 +26,7 @@
     }),
     computed: {
       imgSrc() {
-        return this.isError ? `${process.env.VUE_APP_MEDIA_URL}${this.fallback}` : this.isUrl ? this.image : `${process.env.VUE_APP_MEDIA_URL}${this.image}`
+        return this.isError ? `${process.env.VUE_APP_MEDIA_URL}/events/${this.fallback}` : this.isUrl ? this.image : `${process.env.VUE_APP_MEDIA_URL}/events/${this.image}`
       },
     },
   }
