@@ -36,10 +36,10 @@
     props: ['sheetHeight'],
     computed: {
       ...mapState({
-        header: state => state.header,
-        settings: state => state.item,
+        header: state => state.boardSettings.header,
+        settings: state => state.boardSettings.item,
         items: state => state.items,
-        ticker: state => state.ticker,
+        ticker: state => state.boardSettings.ticker,
       }),
       headerTextStyle() {
         return {
@@ -51,7 +51,6 @@
       setHeight() {
         const list = this.$refs.itemList.$el
         if (this.sheetHeight) {
-          console.log(this.sheetHeight)
           list.style.setProperty('height', `${this.sheetHeight}`)
           list.style.setProperty('z-index', 1)
         }

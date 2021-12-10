@@ -3,7 +3,6 @@
     <v-card-title class="subheading primary--text pt-1 pb-2 pl-0 ">
       LEGEND
     </v-card-title>
-    <!-- <v-card :height="100"> -->
     <v-card-text>
       <v-layout row wrap>
         <v-col cols="4" v-for="item in legendItems" :key="item.legend" class="pa-0">
@@ -74,5 +73,3 @@
     }),
   }
 </script>
-
-<style lang="scss" scoped></style>

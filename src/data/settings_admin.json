@@ -1,0 +1,169 @@
+{
+  "boardBackground": {
+    "description": "The background color of the bulletinboard.",
+    "id": "2",
+    "label": "Background color",
+    "name": "boardBackground",
+    "type": "String",
+    "value": "#E6F3FB"
+  },
+  "tickerFeed": { "description": "RSS feed source.", "id": "3", "label": "Feed", "name": "tickerFeed", "type": "String", "value": "1" },
+  "tickerFilter": {
+    "description": "Any items containing the following words will be filtered from the feed.",
+    "id": "4",
+    "label": "Filter",
+    "name": "tickerFilter",
+    "type": "String",
+    "value": "[\"LIVE:\",\"WATCH:\"]"
+  },
+  "tickerSpeed": { "description": "Speed in which the ticker scrolls.", "id": "5", "label": "Speed", "name": "tickerSpeed", "type": "Number", "value": "4" },
+  "boardHeaderShow": { "description": "Toggle to hide or show header.", "id": "6", "label": "Display", "name": "boardHeaderShow", "type": "Boolean", "value": true },
+  "tickerShow": { "description": "Toggle to hide or show ticker.", "id": "7", "label": "Display", "name": "tickerShow", "type": "Boolean", "value": true },
+  "boardHeaderContentAlign": {
+    "description": "Position where the content in the header will be aligned",
+    "id": "29",
+    "label": "Content alignment",
+    "name": "boardHeaderContentAlign",
+    "type": "String",
+    "value": "start"
+  },
+  "boardHeaderTextColor": { "description": "Color of text in the header", "id": "30", "label": "Text color", "name": "boardHeaderTextColor", "type": "String", "value": "#2C4776" },
+  "boardHeaderImage": {
+    "description": "Banner image to use for header",
+    "id": "32",
+    "label": "Image",
+    "name": "boardHeaderImage",
+    "type": "String",
+    "value": ""
+  },
+  "boardHeaderHeight": { "description": "Height of the header.", "id": "34", "label": "Height", "name": "boardHeaderHeight", "type": "Number", "value": "80" },
+  "boardHeaderText": { "description": "Content displayed in header", "id": "8", "label": "Content", "name": "boardHeaderText", "type": "String", "value": "VULLETINBOARD" },
+  "boardHeaderColor": { "description": "Color of the header", "id": "9", "label": "Color", "name": "boardHeaderColor", "type": "String", "value": "#E6F3FB" },
+  "boardHeaderType": { "description": "Set style of the header", "id": "10", "label": "Style", "name": "boardHeaderType", "type": "String", "value": "text" },
+  "appName": { "description": "The name of this App", "id": "12", "label": "Name", "name": "appName", "type": "String", "value": "VULLETINBOARD" },
+  "itemColor": { "description": "Background color of the item card", "id": "13", "label": "Item color", "name": "itemColor", "type": "String", "value": "#FFFFFF" },
+  "itemTextDescription": {
+    "description": "Color of item description text",
+    "id": "14",
+    "label": "Item description color",
+    "name": "itemTextDescription",
+    "type": "String",
+    "value": "#2C4776"
+  },
+  "itemTextFooter": { "description": "Color of the item footer text", "id": "15", "label": "Item footer color", "name": "itemTextFooter", "type": "String", "value": "#2C4776" },
+  "itemTextSubtitle": {
+    "description": "Color of the item subtitle text",
+    "id": "16",
+    "label": "Item subtitle color",
+    "name": "itemTextSubtitle",
+    "type": "String",
+    "value": "#2C4776"
+  },
+  "itemTextTitle": { "description": "Color of the item title text", "id": "17", "label": "Item title color", "name": "itemTextTitle", "type": "String", "value": "#2C4776" },
+  "itemTimeout": { "description": "Amount of time between events cycled", "id": "18", "label": "Item timeout", "name": "itemTimeout", "type": "Number", "value": "7000" },
+  "themeLightPrimary": { "description": "Primary color for light theme", "id": "19", "label": "Primary color", "name": "themeLightPrimary", "type": "String", "value": "#2C4776" },
+  "themeLightSecondary": {
+    "description": "Secondary color for light theme",
+    "id": "20",
+    "label": "Secondary color",
+    "name": "themeLightSecondary",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "themeLightAccent": { "description": "Accent color for light theme", "id": "21", "label": "Accent color", "name": "themeLightAccent", "type": "String", "value": "#A1B2CC" },
+  "themeLightBackground": {
+    "description": "Background color for light theme",
+    "id": "22",
+    "label": "Background color",
+    "name": "themeLightBackground",
+    "type": "String",
+    "value": "#A1B2CC"
+  },
+  "themeDarkPrimary": { "description": "Primary color for dark theme", "id": "23", "label": "Primary color", "name": "themeDarkPrimary", "type": "String", "value": "#2C4776" },
+  "themeDarkSecondary": {
+    "description": "Secondary color for dark theme",
+    "id": "24",
+    "label": "Secondary color",
+    "name": "themeDarkSecondary",
+    "type": "String",
+    "value": "#FDFDFD"
+  },
+  "themeDarkAccent": { "description": "Accent color for dark theme", "id": "25", "label": "Accent color", "name": "themeDarkAccent", "type": "String", "value": "#FFFB31" },
+  "themeDarkBackground": {
+    "description": "Background color for dark theme",
+    "id": "26",
+    "label": "Background color",
+    "name": "themeDarkBackground",
+    "type": "String",
+    "value": "#A1B2CC"
+  },
+  "themeDark": { "description": "Enable dark mode.", "id": "27", "label": "Dark theme", "name": "themeDark", "type": "Boolean", "value": true },
+  "tickerHeight": { "description": "Height of the ticker bar", "id": "37", "label": "Height", "name": "tickerHeight", "type": "Number", "value": "50" },
+  "tickerColor": { "description": "Color of ticker bar", "id": "38", "label": "Color", "name": "tickerColor", "type": "String", "value": "#2C4776" },
+  "tickerTextColor": { "description": "Color of ticker text", "id": "39", "label": "Text Color", "name": "tickerTextColor", "type": "String", "value": "#FFFFFF" },
+  "appHeaderHeight": {
+    "description": "Height of the header for the main app",
+    "id": "40",
+    "label": "App header height",
+    "name": "appHeaderHeight",
+    "type": "Number",
+    "value": "80"
+  },
+  "itemListHeaderText": { "description": "Text shown in item list header", "id": "44", "label": "List title", "name": "itemListHeaderText", "type": "String", "value": "EVENTS" },
+  "itemListHeaderColor": {
+    "description": "Color of the item list header",
+    "id": "45",
+    "label": "List header color",
+    "name": "itemListHeaderColor",
+    "type": "String",
+    "value": "#2C4776"
+  },
+  "itemListHeaderTextColor": {
+    "description": "List header text color",
+    "id": "47",
+    "label": "List header text color",
+    "name": "itemListHeaderTextColor",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextDescriptionActive": {
+    "description": "Item description text color for active item ",
+    "id": "48",
+    "label": "Active description color",
+    "name": "itemTextDescriptionActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextTitleActive": {
+    "description": "Item title text color for active item",
+    "id": "51",
+    "label": "Active title color",
+    "name": "itemTextTitleActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextFooterActive": {
+    "description": "Item footer text color for active item",
+    "id": "53",
+    "label": "Active footer color",
+    "name": "itemTextFooterActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextSubtitleActive": {
+    "description": "Item subtitle text color for active item",
+    "id": "54",
+    "label": "Active subtitle color",
+    "name": "itemTextSubtitleActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemColorActive": {
+    "description": "Background color of the active item card",
+    "id": "56",
+    "label": "Active Item color ",
+    "name": "itemColorActive",
+    "type": "String",
+    "value": "#2C4776"
+  }
+}

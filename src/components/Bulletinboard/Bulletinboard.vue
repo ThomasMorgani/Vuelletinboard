@@ -15,8 +15,6 @@
 </template>
 
 <script>
-  // import { seedData } from '@/assets/store/data.js'
-  // const { items: itemsData, settings: appSettings } = seedData
   import { mapState } from 'vuex'
 
   import EventList from '@/components/Bulletinboard/Eventlist'
@@ -41,9 +39,9 @@
     computed: {
       ...mapState({
         items: state => state.items,
-        header: state => state.header,
-        settings: state => state.board,
-        ticker: state => state.ticker,
+        header: state => state.boardSettings.header,
+        settings: state => state.boardSettings.board,
+        ticker: state => state.boardSettings.ticker,
       }),
       displayedEvent() {
         return this.items?.['0']
@@ -99,7 +97,7 @@
         const headerShow = this?.header?.boardHeaderShow ?? false
         const headerHeight = !headerShow ? 0 : this?.header?.boardHeaderHeight || defaults.header
         const tickerHeight = this?.ticker?.tickerHeight || defaults.ticker
-        const adj = 5
+        const adj = 0
         const diff = parseInt(headerHeight) + parseInt(tickerHeight) + adj
         const list = this.$refs.contentSheet.$el
         list.style.setProperty('height', `calc(100vh - ${diff}px)`)
@@ -114,7 +112,8 @@
     },
     mounted() {
       setTimeout(this.setHeight, 500)
-      const updateTimeout = 1000 * 60 * 10 //MOVE TO SETTINGS (curr 10min)
+      // const updateTimeout = 1000 * 60 * 10 //MOVE TO SETTINGS (curr 10min)
+      const updateTimeout = 1000 * 60 * 1 //MOVE TO SETTINGS (curr 1min)
       this.pollIntervalId = setInterval(this.init, updateTimeout)
     },
   }

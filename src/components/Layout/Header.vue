@@ -41,7 +41,7 @@
       },
       theme() {
         const { dark, light } = this.$vuetify.theme.themes
-        return this.isDark ? dark : light
+        return this.$vuetify.theme.dark ? dark : light
       },
     },
     methods: {

@@ -1,55 +1,59 @@
 <template>
-  <v-card outlined class="">
-    <v-card-title class="text-h5 primary--text pb-2">
-      Theme
-    </v-card-title>
-    <v-card-text class="d-flex flex-column align-start">
-      <v-card flat width="100%" class="">
+  <v-card flat tile width="100%">
+    <v-card-text>
+      <v-card outlined class="">
         <v-card-title class="text-h5 primary--text pb-2">
-          Mode
+          Theme
         </v-card-title>
         <v-card-text class="d-flex flex-column align-start">
-          <ThemeToggle prepend="mdi-theme-light-dark"></ThemeToggle>
-        </v-card-text>
-      </v-card>
-      <v-card flat width="100%" class="">
-        <v-card-title class="text-h5 primary--text pb-2">
-          Primary
-        </v-card-title>
-        <v-card-text class="d-flex flex-column align-start">
-          <Colorpicker @input="setColor($event, 'primary')" :btnProps="{ color: 'primary', label: '     ', value: theme.primary }"></Colorpicker>
-        </v-card-text>
-      </v-card>
+          <v-card flat width="100%" class="">
+            <v-card-title class="text-h5 primary--text pb-2">
+              Mode
+            </v-card-title>
+            <v-card-text class="d-flex flex-column align-start">
+              <ThemeToggle prepend="mdi-theme-light-dark"></ThemeToggle>
+            </v-card-text>
+          </v-card>
+          <v-card flat width="100%" class="">
+            <v-card-title class="text-h5 primary--text pb-2">
+              Primary
+            </v-card-title>
+            <v-card-text class="d-flex flex-column align-start">
+              <Colorpicker @input="setColor($event, 'primary')" :btnProps="{ color: 'primary', label: '     ', value: theme.primary }"></Colorpicker>
+            </v-card-text>
+          </v-card>
 
-      <v-card flat width="100%" class="">
-        <v-card-title class="text-h5 primary--text pb-2">
-          Secondary
-        </v-card-title>
-        <v-card-text class="d-flex flex-column align-start">
-          <Colorpicker @input="setColor($event, 'secondary')" :btnProps="{ color: 'secondary', label: '     ', value: theme.secondary }"></Colorpicker>
+          <v-card flat width="100%" class="">
+            <v-card-title class="text-h5 primary--text pb-2">
+              Secondary
+            </v-card-title>
+            <v-card-text class="d-flex flex-column align-start">
+              <Colorpicker @input="setColor($event, 'secondary')" :btnProps="{ color: 'secondary', label: '     ', value: theme.secondary }"></Colorpicker>
+            </v-card-text>
+          </v-card>
+          <v-card flat width="100%" class="">
+            <v-card-title class="text-h5 primary--text pb-2">
+              Accent
+            </v-card-title>
+            <v-card-text class="d-flex flex-column align-start">
+              <Colorpicker @input="setColor($event, 'accent')" :btnProps="{ color: 'accent', label: '     ', value: theme.accent }"></Colorpicker>
+            </v-card-text>
+          </v-card>
+          <v-card flat width="100%" class="">
+            <v-card-title class="text-h5 primary--text pb-2">
+              Background
+            </v-card-title>
+            <v-card-text class="d-flex flex-column align-start">
+              <Colorpicker @input="setColor($event, 'background')" :btnProps="{ color: 'background', label: '     ', value: theme.background }"></Colorpicker>
+            </v-card-text>
+          </v-card>
         </v-card-text>
-      </v-card>
-      <v-card flat width="100%" class="">
-        <v-card-title class="text-h5 primary--text pb-2">
-          Accent
-        </v-card-title>
-        <v-card-text class="d-flex flex-column align-start">
-          <Colorpicker @input="setColor($event, 'accent')" :btnProps="{ color: 'accent', label: '     ', value: theme.accent }"></Colorpicker>
-        </v-card-text>
-      </v-card>
-      <v-card flat width="100%" class="">
-        <v-card-title class="text-h5 primary--text pb-2">
-          Background
-        </v-card-title>
-        <v-card-text class="d-flex flex-column align-start">
-          <Colorpicker @input="setColor($event, 'background')" :btnProps="{ color: 'background', label: '     ', value: theme.background }"></Colorpicker>
-        </v-card-text>
+        <v-card-actions class="pa-4">
+          <v-btn color="success" :disabled="actionsDisabled" :loading="loadingSave" tile width="150" @click="saveColors">SAVE {{ isDark ? ' DARK' : ' LIGHT' }}</v-btn>
+          <v-btn color="warning" :disabled="actionsDisabled" tile @click="resetColors">REVERT {{ isDark ? ' DARK' : ' LIGHT' }}</v-btn>
+        </v-card-actions>
       </v-card>
     </v-card-text>
-    <v-card-actions class="pa-4">
-      <v-btn color="success" :disabled="actionsDisabled" :loading="loadingSave" tile width="150" @click="saveColors">SAVE {{ isDark ? ' DARK' : ' LIGHT' }}</v-btn>
-      <v-btn color="warning" :disabled="actionsDisabled" tile @click="resetColors">REVERT {{ isDark ? ' DARK' : ' LIGHT' }}</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -90,22 +94,14 @@
           isDark: this.isDark,
           theme: this.isDark ? this.$vuetify.theme.themes.dark : this.$vuetify.theme.themes.light,
         }
-        const resp = await this.$store.dispatch('apiPost', {
-          endpoint: 'manage/settings/theme',
-          postData: theme,
-        })
-        if (resp.status === 'success') {
-          const mode = this.isDark ? 'dark' : 'light'
-          this.currentTheme = {
-            ...this.currentTheme,
-            [mode]: { ...theme.theme },
-          }
-          this.$store.dispatch('themeSet', { $vuetify: this.$vuetify, theme })
+        const mode = this.isDark ? 'dark' : 'light'
+        this.currentTheme = {
+          ...this.currentTheme,
+          [mode]: { ...theme.theme },
         }
-        //dispatch sb
+        this.$store.dispatch('themeSet', { $vuetify: this.$vuetify, theme })
         this.loadingSave = false
-        this.$store.dispatch('snackbar', {})
-        console.log(resp)
+        this.$store.dispatch('snackbar', { color: 'success', message: 'App theme saved', value: true })
       },
       setColor(data = '', color) {
         const { dark, light } = this.$vuetify.theme.themes

@@ -102,7 +102,6 @@
         return this.user.status == '1'
       },
       userRoles() {
-        // user.role.slice().sort((a, b) => a.label.localeCompare(b.label))
         return [...this.user.role].map(role => this?.roles?.[role]?.label).sort((a, b) => a.localeCompare(b))
       },
     },
@@ -111,7 +110,6 @@
         this.$emit('userRoleEdit', { user: this.user })
       },
       toggleStatus() {
-        //dispatch update
         this.$emit('userStatusToggle', this.user)
       },
     },

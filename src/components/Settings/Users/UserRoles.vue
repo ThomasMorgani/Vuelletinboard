@@ -1,7 +1,7 @@
 <template>
   <v-card class="text-left pt-4">
     <v-card-text>
-      <v-list flat two-line>
+      <v-list flat two-line :disabled="user.id == 1919">
         <v-subheader class="d-flex flex-column align-start text-h5 primary--text mb-4"
           ><div>
             USER ROLES
@@ -9,14 +9,14 @@
           <div class="text-subtitle-2 primary--text" v-if="user.first && user.last">{{ `${user.first} ${user.last}` }}</div>
         </v-subheader>
 
-        <v-list-item v-for="role in roles" :key="role.role">
+        <v-list-item v-for="role in rolesOrdered" :key="role.role">
           <v-list-item-content>
             <v-list-item-title v-text="role.label"></v-list-item-title>
             <v-list-item-subtitle v-text="role.description"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-progress-circular v-if="switchLoading === role.role" indetermintate></v-progress-circular>
-            <v-switch v-else :input-value="userRolesState[role.role]" :value="userRolesState[role.role]" @click="roleToggle(role.role)"></v-switch>
+            <v-switch v-else :disabled="user.id == 1919" :input-value="userRolesState[role.role]" :value="userRolesState[role.role]" @click="roleToggle(role.role)"></v-switch>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -47,6 +47,10 @@
       switchLoading: null,
     }),
     computed: {
+      rolesOrdered() {
+        const roles = [...this.roles]
+        return roles.sort((a, b) => a.label.localeCompare(b.label))
+      },
       userRolesState() {
         const roles = {}
         this.roles.forEach(role => {
@@ -61,25 +65,10 @@
       },
       roleToggle(role) {
         this.switchLoading = role
-        const action = this.userRolesState[role] ? 'remove' : 'add'
-        const endpoint = `admin/role/${this.user.id}/${role}/${action}`
-        this.$store
-          .dispatch('apiGet', {
-            baseurl: process.env.VUE_APP_API_ADMIN_URL,
-            endpoint,
-          })
-          .then(resp => {
-            const { status, message, data } = resp
-            this.$store.dispatch('snackbar', { color: status, message, value: true })
-            if (status === 'success') {
-              const roles = action === 'add' ? [...this.user.role, role] : [...this.user.role].filter(r => r !== role)
-              this.$emit('userRole', { userid: this.user.id, roles })
-            }
-            this.switchLoading = null
-          })
+        const roles = this.userRolesState[role] ? [...this.user.role].filter(r => r !== role) : [...this.user.role, role]
+        this.switchLoading = null
+        this.$emit('userRole', { userid: this.user.id, roles })
       },
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

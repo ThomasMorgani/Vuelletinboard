@@ -47,8 +47,9 @@
         get() {
           return this.settings.appName.value
         },
-        set(v) {
+        async set(v) {
           this.$store.dispatch('settingsSet', { appName: v })
+          await this.$store.dispatch('appSettingSet', { appName: this.name })
         },
       },
       settings() {
@@ -56,19 +57,18 @@
       },
     },
     methods: {
-      revertSettings() {
+      async revertSettings() {
         this.$store.dispatch('settingsSet', this.currentSettings)
+        await this.$store.dispatch('appSettingSet', { appName: this.name })
       },
       async saveSettings() {
         this.loadingSave = true
-        const propsData = null
-        const resp = await this.$store.dispatch('apiPost', { endpoint: 'manage/settings/app', postData })
-        if (resp.status === 'success') {
-        }
-        //dispatch sb
+        await this.$store.dispatch('settingsSet', { appName: this.name })
+        //DEMO
+        await this.$store.dispatch('appSettingSet', { appName: this.name })
+        this.currentSettings.appName = this.name
         this.loadingSave = false
-        this.$store.dispatch('snackbar', {})
-        console.log(resp)
+        this.$store.dispatch('snackbar', { color: 'success', message: 'App name saved', value: true })
       },
     },
     created() {

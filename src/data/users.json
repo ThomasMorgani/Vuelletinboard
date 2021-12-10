@@ -1,162 +1,212 @@
 [
   {
+    "email": "demo@vulletinboard.com",
+    "id": 1919,
+    "first": "Demo",
+    "last": "User",
+    "lastLogin": "1999-09-09 11:22:33",
+    "role": ["isAdmin", "vbSettingsBulletinboard", "vbSettingsApp", "vbContentManage"],
+    "status": 1,
+    "username": "demo"
+  },
+  {
     "id": 1,
-    "first_name": "Allyn",
-    "last_name": "Janisson",
+    "first": "Allyn",
+    "last": "Janisson",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "ajanisson0@4shared.com",
     "username": "ajanisson0@4shared.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 2,
-    "first_name": "Baryram",
-    "last_name": "Lebbern",
+    "first": "Baryram",
+    "last": "Lebbern",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "blebbern1@reference.com",
     "username": "blebbern1@reference.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 3,
-    "first_name": "Owen",
-    "last_name": "Steely",
+    "first": "Owen",
+    "last": "Steely",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "osteely2@digg.com",
     "username": "osteely2@digg.com",
-    "role": "admin"
+    "status": 1,
+    "role": ["isAdmin"]
   },
   {
     "id": 4,
-    "first_name": "Gusta",
-    "last_name": "Fairbourn",
+    "first": "Gusta",
+    "last": "Fairbourn",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "gfairbourn3@ucoz.com",
     "username": "gfairbourn3@ucoz.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 5,
-    "first_name": "Nonnah",
-    "last_name": "Charlesworth",
+    "first": "Nonnah",
+    "last": "Charlesworth",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "ncharlesworth4@cargocollective.com",
     "username": "ncharlesworth4@cargocollective.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 6,
-    "first_name": "Horatius",
-    "last_name": "Tibbits",
+    "first": "Horatius",
+    "last": "Tibbits",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "htibbits5@msu.edu",
     "username": "htibbits5@msu.edu",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 7,
-    "first_name": "Paten",
-    "last_name": "Bysshe",
+    "first": "Paten",
+    "last": "Bysshe",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "pbysshe6@clickbank.net",
     "username": "pbysshe6@clickbank.net",
-    "role": "admin"
+    "status": 1,
+    "role": ["isAdmin"]
   },
   {
     "id": 8,
-    "first_name": "Melva",
-    "last_name": "Livens",
+    "first": "Melva",
+    "last": "Livens",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "mlivens7@walmart.com",
     "username": "mlivens7@walmart.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 9,
-    "first_name": "Ricki",
-    "last_name": "Dunstone",
+    "first": "Ricki",
+    "last": "Dunstone",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "rdunstone8@t-online.de",
     "username": "rdunstone8@t-online.de",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 10,
-    "first_name": "Upton",
-    "last_name": "Bennion",
+    "first": "Upton",
+    "last": "Bennion",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "ubennion9@census.gov",
     "username": "ubennion9@census.gov",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 11,
-    "first_name": "Erinna",
-    "last_name": "Hendrickson",
+    "first": "Erinna",
+    "last": "Hendrickson",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "ehendricksona@icio.us",
     "username": "ehendricksona@icio.us",
-    "role": "admin"
+    "status": 1,
+    "role": ["isAdmin"]
   },
   {
     "id": 12,
-    "first_name": "Jereme",
-    "last_name": "Polley",
+    "first": "Jereme",
+    "last": "Polley",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "jpolleyb@digg.com",
     "username": "jpolleyb@digg.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 13,
-    "first_name": "Lamar",
-    "last_name": "Mackerness",
+    "first": "Lamar",
+    "last": "Mackerness",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "lmackernessc@jalbum.net",
     "username": "lmackernessc@jalbum.net",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage", "vbSettingsApp"]
   },
   {
     "id": 14,
-    "first_name": "Arleyne",
-    "last_name": "O'Mullaney",
+    "first": "Arleyne",
+    "last": "O'Mullaney",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "aomullaneyd@simplemachines.org",
     "username": "aomullaneyd@simplemachines.org",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 15,
-    "first_name": "Jeannette",
-    "last_name": "Winman",
+    "first": "Jeannette",
+    "last": "Winman",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "jwinmane@macromedia.com",
     "username": "jwinmane@macromedia.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 16,
-    "first_name": "Myrvyn",
-    "last_name": "Brunotti",
+    "first": "Myrvyn",
+    "last": "Brunotti",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "mbrunottif@home.pl",
     "username": "mbrunottif@home.pl",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage", "vbSettingsApp"]
   },
   {
     "id": 17,
-    "first_name": "Vickie",
-    "last_name": "Bricklebank",
+    "first": "Vickie",
+    "last": "Bricklebank",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "vbricklebankg@twitpic.com",
     "username": "vbricklebankg@twitpic.com",
-    "role": "admin"
+    "status": 1,
+    "role": ["isAdmin"]
   },
   {
     "id": 18,
-    "first_name": "Sofia",
-    "last_name": "Barles",
+    "first": "Sofia",
+    "last": "Barles",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "sbarlesh@omniture.com",
     "username": "sbarlesh@omniture.com",
-    "role": "admin"
+    "status": 1,
+    "role": ["isAdmin", "vbSettingsApp"]
   },
   {
     "id": 19,
-    "first_name": "Carl",
-    "last_name": "Stairmond",
+    "first": "Carl",
+    "last": "Stairmond",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "cstairmondi@archive.org",
     "username": "cstairmondi@archive.org",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   },
   {
     "id": 20,
-    "first_name": "Connie",
-    "last_name": "Garrelts",
+    "first": "Connie",
+    "last": "Garrelts",
+    "lastLogin": "1999-09-09 11:22:33",
     "email": "cgarreltsj@etsy.com",
     "username": "cgarreltsj@etsy.com",
-    "role": "user"
+    "status": 1,
+    "role": ["vbContentManage"]
   }
 ]

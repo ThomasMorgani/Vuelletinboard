@@ -1,10 +1,15 @@
 <template>
-  <v-menu v-model="modal" :close-on-content-click="false" :nudge-width="200" offset-x>
+  <v-menu v-model="modal" :close-on-content-click="false" :nudge-width="200" offset-x ref="colorPickerMenu">
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="{ ...attrs, ...customProps }" v-on="on" :class="`${textColor}--text`">{{ customProps.label }}</v-btn>
     </template>
-    <v-card
-      ><v-card-text>
+    <v-card>
+      <v-card-title class="text-h6 primary--text">
+        COLOR SELECT
+        <v-spacer></v-spacer>
+        <v-icon color="primary" @click="modal = false">mdi-close</v-icon>
+      </v-card-title>
+      <v-card-text>
         <v-select v-model="selection" color="primary" :items="predefined" label="Predefined colors">
           <template #selection="{item}">
             <span class="text-capitalize">
@@ -54,7 +59,6 @@
           const themeColor = this.themeLabelFromHex(v)
           if (themeColor) {
             this.select = themeColor
-            // this.$emit('input', this.select)
             this.$emit('input', v)
           } else {
             this.select = 'custom'

@@ -1,9 +1,14 @@
 <template>
   <v-app-bar app bottom :color="settings.tickerColor" :height="settings.tickerHeight" ref="ticker" class="d-flex align-center" :style="{ color: settings.tickerTextColor }">
-    <div class="d-flex flex-column  text-no-wrap ">
-      <p class="text-subtitle-1 ma-0 mt-2">{{ date }}</p>
-      <p class="text-h6 ma-0 mb-2">{{ time }}</p>
-    </div>
+    <v-sheet
+      color="transparent"
+      :height="settings.tickerHeight"
+      class="d-inline-flex flex-column align-center justify-space-between text-no-wrap  py-2 "
+      :style="{ color: settings.tickerTextColor }"
+    >
+      <p class="text-subtitle-1 mb-1" style="line-height: 1">{{ date }}</p>
+      <p class="text-h6 " style="line-height: 1">{{ time }}</p>
+    </v-sheet>
     <v-divider vertical dark class="px-2"></v-divider>
     <v-icon class="flex-shrink-1 px-4" :color="settings.tickerTextColor">mdi mdi-newspaper</v-icon>
 
@@ -39,18 +44,14 @@
     }),
     computed: {
       ...mapState({
-        settings: state => state.ticker,
+        settings: state => state.boardSettings.ticker,
       }),
     },
     methods: {
       async feedFetch(rss) {
         const corsproxy = process.env.VUE_APP_CORS_PROXY
-        // debug
-        // this.newsfeed = `Herman Cain, former GOP presidential candidate, dies from coronavirus at 74 •  Judge blocks Trump admin's rule barring immigrants who use public benefits •  Army ready to begin broad review at Fort Hood in wake of Guillen murder •  'We will not be leaving' Portland until 'safety' is restored: Trump •  Few medical reasons for not wearing a face mask •  Police: Florida couple jailed for refusing to quarantine •  Another cache of documents related to Ghislaine Maxwell expected to be released •  Trump nominee hearing pulled after furor over Islam remarks •  UK scientists to immunize hundreds with coronavirus vaccine •  Wisconsin governor orders masks statewide amid virus surge •  Russia sentences 2nd ex-US Marine to long jail sentence •  UK rapper Solo 45 sentenced to 24 years for violent rapes •  Trump stokes racist fears after revoking Obama-era housing rule • LIVE:  ABC News Live •  Prosecutor not charging Ferguson officer who killed Michael Brown •  Herman Cain, former GOP presidential candidate, dies from coronavirus at 74 •  Judge blocks Trump admin's rule barring immigrants who use public benefits •  Army ready to begin broad review at Fort Hood in wake of Guillen murder •  'We will not be leaving' Portland until 'safety' is restored: Trump •  Few medical reasons for not wearing a face mask •  Police: Florida couple jailed for refusing to quarantine •  Another cache of documents related to Ghislaine Maxwell expected to be released •  Trump nominee hearing pulled after furor over Islam remarks •  UK scientists to immunize hundreds with coronavirus vaccine •  Wisconsin governor orders masks statewide amid virus surge`
-        // return
-        // const rss = 'https://abcnews.go.com/abcnews/topstories'
+        if (!rss) return ['Welcome to Vulletinboard!!', 'Welcome to Vulletinboard!!', 'Welcome to Vulletinboard!!', 'Welcome to Vulletinboard!!', 'Welcome to Vulletinboard!!']
         const parser = new RSSParser()
-        let feed = null
         try {
           return await parser.parseURL(corsproxy + rss)
         } catch (err) {

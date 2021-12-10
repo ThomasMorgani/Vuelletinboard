@@ -63,11 +63,6 @@
             ></Row>
           </tbody>
         </template>
-        <!-- <template slot="no-data">
-          <tbody>
-          <v-btn color="primary" @click="initializeOffline">Reset</v-btn>
-          </tbody>
-        </template> -->
       </v-data-table>
       <ItemModal
         :key="modalItem.item.id + '' + modalItem.show"
@@ -394,7 +389,7 @@
 
         ni.id = parseInt(ni.id)
         ni.content_media_type = ni.content_media_type && ni.content_media_type !== 'null' ? ni.content_media_type : 'image'
-
+        ni.content_date = ni.content_date === '0000-00-00 00:00:00' ? null : ni.content_date //backend may return this format
         ni.scheduleEnd = item.visibleScheduleEnd === 'noschedule' ? null : item.visibleScheduleEnd
         ni.user_friendly_scheduleEnd = item.user_friendly_visibleScheduleEnd === 'noschedule' ? null : item.user_friendly_visibleScheduleEnd
         delete ni.visibileScheduleEnd
@@ -408,7 +403,6 @@
         ni.visible = item.visible == 1
         return ni
       },
-
       itemSave(item) {
         item = this.itemNormalize(item)
         this.items = [...this.items.filter(i => i.id !== item.id), item]
@@ -441,7 +435,6 @@
         this.modalItem = { item: this.itemDefault, show: false }
       },
       onMediaModalToggle(content) {
-        // console.log(content)
         this.modalMedia = { ...content }
       },
       onVisibilityToggle(item) {
@@ -488,8 +481,6 @@
       },
     },
     created() {
-      // this.initialize()
-      console.log('EVENTS --')
       this.initializeOffline()
     },
   }
@@ -498,9 +489,5 @@
 <style scoped>
   .v-tab {
     min-width: unset;
-  }
-
-  >>> .v-messages {
-    /* text-align: right; */
   }
 </style>

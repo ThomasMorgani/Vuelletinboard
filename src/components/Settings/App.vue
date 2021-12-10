@@ -19,5 +19,3 @@
     components: { Background, Header, Item, Ticker },
   }
 </script>
-
-<style lang="scss" scoped></style>

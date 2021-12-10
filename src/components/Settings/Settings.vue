@@ -9,16 +9,16 @@
     </v-card-title>
     <v-card-text class="content pa-0 pr-2">
       <v-tabs-items v-model="tabs">
-        <v-tab-item value="board">
-          <v-sheet color="transparent" height="100%" class="d-flex flex-column">
-            <ContentSettings class="mt-2"></ContentSettings>
-          </v-sheet>
-        </v-tab-item>
         <v-tab-item value="settings">
           <v-sheet color="transparent" height="100%" class="d-flex flex-column">
             <!-- MAKE APPSETTINGS< MOVE GENERAL, COLOR  -->
             <GeneralSettings></GeneralSettings>
             <ColorsSettings class="mt-2"></ColorsSettings>
+          </v-sheet>
+        </v-tab-item>
+        <v-tab-item value="board">
+          <v-sheet color="transparent" height="100%" class="d-flex flex-column">
+            <ContentSettings class="mt-2" v-if="tabs === 'board'" :key="tabs"></ContentSettings>
           </v-sheet>
         </v-tab-item>
         <v-tab-item value="users" disabled><UserSettings /> </v-tab-item>
@@ -43,7 +43,7 @@
     computed: {
       titleTabsStyle() {
         const appSettings = this.$store.state.app
-        const headerSettings = this.$store.state.header
+        const headerSettings = this.$store.state.boardSettings.header
         const isBulletinboard = this.$route.name === 'Bulletinboard' || headerSettings.boardHeaderPreview
         let top = isBulletinboard && headerSettings?.boardHeaderShow ? +headerSettings.boardHeaderHeight : +appSettings.appHeaderHeight
         const style = {
@@ -72,10 +72,7 @@
       if (view) {
         this.tabs = view
       }
-      const settings = await this.$store.dispatch('apiGet', { endpoint: 'manage/settings' })
-      if (settings) {
-        await this.$store.dispatch('settingsSet', settings)
-      }
+      await this.$store.dispatch('initAdminSettings')
       this.isLoading = false
       const scroll = parseInt(localStorage.getItem('lastScroll')) || 0
       setTimeout(() => (document.documentElement.scrollTop = scroll), 500)

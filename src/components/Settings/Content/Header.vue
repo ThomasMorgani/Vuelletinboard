@@ -86,7 +86,7 @@
       <v-btn tile color="warning" :disabled="actionDisabled" @click="revertSettings">REVERT </v-btn>
       <v-spacer></v-spacer>
       <IconTooltip v-if="!show && preview" v-bind="{ iconOpts: { color: 'warning', left: true }, tooltipOpts: { text: 'Header is configured to be hidden' } }"></IconTooltip>
-      <v-btn tile :color="preview ? 'primary' : 'disabled'" @click="togglePreview" class="font-weight-bold ">
+      <v-btn tile :color="preview ? 'primary' : 'disabled'" @click="togglePreview(null)" class="font-weight-bold ">
         <v-icon left>{{ `mdi-${preview ? 'eye' : 'eye-off'}` }}</v-icon
         >PREVIEW
       </v-btn>
@@ -147,7 +147,7 @@
         },
         set(v) {
           this.height = v
-          this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderHeight: v })
+          this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderHeight: v })
         },
       },
       headerText: {
@@ -156,7 +156,7 @@
         },
         set(v) {
           this.text = v
-          this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderText: v })
+          this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderText: v })
         },
       },
     },
@@ -193,6 +193,7 @@
           color: this.boardSettings.boardHeaderColor.value,
           height: this.boardSettings.boardHeaderHeight.value,
           image: this.boardSettings.boardHeaderImage.value,
+          preview: this.$store.state.boardSettings.header.boardHeaderPreview || false,
           show: this.boardSettings.boardHeaderShow.value,
           text: this.boardSettings.boardHeaderText.value,
           textColor: this.boardSettings.boardHeaderTextColor.value,
@@ -203,64 +204,60 @@
         }
         this.currentSettings = { ...currentSettings }
         const settingsHeader = this.formatBoardHeaderSettings()
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, ...settingsHeader })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, ...settingsHeader })
       },
       async saveHeader() {
-        console.log('saveHeader')
-        const postData = this.formatBoardHeaderSettings()
         this.loadingSave = true
-        const resp = await this.$store.dispatch('apiPost', { endpoint: 'manage/settings/header', postData })
-        if (resp.status === 'success') {
-          this.$store.dispatch('settingsSet', postData)
-          this.revertSettings()
-        }
+        const headerSettings = this.formatBoardHeaderSettings()
+        this.$store.dispatch('settingsSet', headerSettings)
+        this.$store.dispatch('boardSettingSet', {
+          head: headerSettings,
+        })
+        this.$store.dispatch('boardSettingsSave')
+        this.revertSettings()
         this.loadingSave = false
-        const { status: color, message } = resp
-        this.$store.dispatch('snackbar', { color, message, value: true })
+        this.$store.dispatch('snackbar', { color: 'success', message: 'Header settings saved.', value: true })
       },
       setAlignment(e) {
         this.align = e
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderContentAlign: this.align })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderContentAlign: this.align })
       },
       setColor(e) {
         this.color = e
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderColor: this.color })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderColor: this.color })
       },
       setHeight() {
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderHeight: this.height })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderHeight: this.height })
       },
       setText() {
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderText: this.text })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderText: this.text })
       },
       setTextColor(e) {
         this.textColor = e
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderTextColor: this.textColor })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderTextColor: this.textColor })
       },
       setType() {
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderType: this.type })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderType: this.type })
       },
-      togglePreview() {
-        this.preview = !this.preview
-
-        const header = {
-          boardHeaderContentAlign: this.align,
-          boardHeaderColor: this.color,
-          boardHeaderHeight: this.height,
-          boardHeaderImage: this.image,
-          boardHeaderShow: this.show,
-          boardHeaderText: this.text,
-          boardHeaderTextColor: this.textColor,
-          boardHeaderType: this.type,
-        }
+      togglePreview(showPreview = null) {
+        this.preview = showPreview === null ? !this.preview : showPreview
+        const header = this.formatBoardHeaderSettings()
         this.$store.dispatch('headerSet', { ...header, boardHeaderPreview: this.preview })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderPreview: this.preview })
+        this.$store.dispatch('boardSettingsSave')
       },
       toggleShow(e) {
         this.show = e
-        this.$store.dispatch('headerSet', { ...this.$store.state.header, boardHeaderShow: this.show })
+        this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderShow: this.show })
       },
     },
     created() {
+      this.preview = this.$store.state.boardSettings.header.boardHeaderPreview
       this.revertSettings()
+    },
+    beforeDestroy() {
+      this.$store.dispatch('headerSet', { ...this.$store.state.boardSettings.header, boardHeaderPreview: false })
+      this.$store.state.boardSettings.header
     },
   }
 </script>

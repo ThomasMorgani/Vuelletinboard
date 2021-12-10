@@ -48,10 +48,6 @@
       submitted: false,
     }),
     props: {
-      baseurl: {
-        type: String,
-        required: true,
-      },
       roles: {
         type: Array,
         required: true,
@@ -77,28 +73,10 @@
     methods: {
       saveUser() {
         this.submitted = true
-        const action = this.user?.id ? 'update' : 'add'
+        const action = this.user?.id ? 'userUpdated' : 'userAdded'
         const userData = { ...this.userEditing }
-        this.$store
-          .dispatch('apiPost', {
-            baseurl: this.baseurl,
-            endpoint: 'admin/user/' + action,
-            postData: userData,
-          })
-          .then(resp => {
-            const { status, message, data } = resp
-            this.$store.dispatch('snackbar', { color: status, message, value: true })
-            if (status === 'success') {
-              console.log('usr saved')
-              if (action === 'add') {
-                this.$emit('userAdded', data)
-              }
-              if (action === 'update') {
-                this.$emit('userUpdated', userData)
-              }
-            }
-            this.submitted = false
-          })
+        if (action === 'userAdded') userData.id = new Date().getTime()
+        this.$emit(action, userData)
       },
     },
     created() {
@@ -110,5 +88,3 @@
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

@@ -45,7 +45,10 @@
       actionLoading: false,
       color: null,
       mode: 'color',
-      modeOptions: ['color', 'dynamic'],
+      modeOptions: [
+        { value: 'color', disabled: false, text: 'Color' },
+        { value: 'dynamic', disabled: true, text: 'Dynamic' },
+      ],
     }),
     computed: {
       boardSettings() {
@@ -59,20 +62,18 @@
       },
       async colorSave() {
         this.actionLoading = true
-        const postData = {
-          boardBackground: this.color,
-        }
-        const resp = await this.$store.dispatch('apiPost', { endpoint: 'manage/settings/board', postData })
-        if (resp.status === 'success') {
-        }
-        //dispatch sb
+        await this.$store.dispatch('settingsSet', { boardBackground: this.color })
+        //DEMO
+        this.$store.dispatch('boardSettingSet', {
+          board: { boardBackground: this.color },
+        })
+        this.$store.dispatch('boardSettingsSave')
         this.actionLoading = false
         this.$store.dispatch('snackbar', {
-          color: resp.status || 'primary',
-          message: resp.message || '',
+          color: 'success',
+          message: 'Background color updated.',
           value: true,
         })
-        console.log(resp)
       },
       colorSet(val) {
         this.color = val.hexa ?? val
@@ -86,5 +87,3 @@
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

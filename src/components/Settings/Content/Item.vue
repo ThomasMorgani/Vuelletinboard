@@ -244,7 +244,7 @@
         }
       },
       formatItemSettings() {
-        const data = {
+        return {
           itemColor: this.color,
           itemColorActive: this.colorActive,
           itemListHeaderColor: this.headerColor,
@@ -260,10 +260,9 @@
           itemTextTitleActive: this.titleActive,
           itemTimeout: '7000',
         }
-        return data
       },
       formatWorkingSettings() {
-        const data = {
+        return {
           color: this.color,
           colorActive: this.colorActive,
           description: this.description,
@@ -279,36 +278,31 @@
           title: this.title,
           titleActive: this.titleActive,
         }
-
-        return data
       },
       revertSettings() {
         const currentSettings = this.formatCurrentSettings()
-
         for (let setting in currentSettings) {
           this[setting] = currentSettings[setting]
         }
-
         this.currentSettings = { ...currentSettings }
         const settingsItem = this.formatItemSettings()
         this.$store.dispatch('itemSet', { ...this.$store.state.item, ...settingsItem })
       },
       async saveItemSettings() {
-        console.log('saveItemSettings')
-        const postData = this.formatItemSettings()
         this.loadingSave = true
-        const resp = await this.$store.dispatch('apiPost', { endpoint: 'manage/settings/item', postData })
-        if (resp.status === 'success') {
-          this.$store.dispatch('settingsSet', postData)
-          this.revertSettings()
-        }
+        const itemSettings = this.formatItemSettings()
+        this.$store.dispatch('settingsSet', itemSettings)
+        this.$store.dispatch('boardSettingSet', {
+          item: itemSettings,
+        })
+        this.$store.dispatch('boardSettingsSave')
+        this.revertSettings()
         this.loadingSave = false
-        const { status: color, message } = resp
-        this.$store.dispatch('snackbar', { color, message, value: true })
+        this.$store.dispatch('snackbar', { color: 'success', message: 'Item settings saved.', value: true })
       },
       setItem(item, itemSetting, val) {
         this[item] = val
-        this.$store.dispatch('itemSet', { ...this.$store.state.item, [itemSetting]: val })
+        this.$store.dispatch('itemSet', { ...this.$store.state.boardSettings.item, [itemSetting]: val })
       },
       setUnit() {
         const timeout = this.timeout

@@ -4,8 +4,9 @@ export default {
     const [year, month, day] = date.split('-')
     return withYear ? `${months[month - 1]} ${day}, ${year}` : `${months[month - 1]} ${day}`
   },
-  timeHuman(time) {
+  timeHuman(time = '') {
     const timeArr = time.split(':')
+    if (timeArr.length <= 1) return ''
     let period = 'am'
     let hour = parseInt(timeArr['0'])
     let min = parseInt(timeArr['1'])
@@ -40,6 +41,7 @@ export default {
       human = human + '/' + asDate.getFullYear()
     }
     if (withTime) {
+      if (timestamp.split(' ').length < 2) return human
       let h = asDate.getHours()
       let m = asDate.getMinutes()
       let ampm = 'AM'

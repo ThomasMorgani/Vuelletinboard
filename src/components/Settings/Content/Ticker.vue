@@ -159,6 +159,7 @@
 
 <script>
   import Colorpicker from '@/components/Controls/PickerColor'
+  import demoSettings from '@/data/settings_feed.json'
 
   export default {
     name: 'SettingTicker',
@@ -221,7 +222,7 @@
       },
       filterAutocomplete() {},
       tickerPreview() {
-        return this.$store?.state?.ticker?.tickerPreview || false
+        return this.$store?.state?.boardSettings?.ticker?.tickerPreview || false
       },
       tickerSettings() {
         return this?.$store?.getters?.settingsByCat?.ticker || {}
@@ -249,6 +250,18 @@
       filterRemoveItem(item) {
         this.filter = [...this.filter.filter(i => i !== item)]
       },
+      formatTickerSettings() {
+        const tickerSettings = {
+          tickerColor: this.color,
+          tickerFeed: this.feed,
+          tickerFilter: JSON.stringify(this.filter),
+          tickerHeight: this.height,
+          tickerShow: this.show,
+          tickerText: this.speed,
+          tickerTextColor: this.textColor,
+        }
+        return tickerSettings
+      },
       revertSettings() {
         const currentSettings = {
           color: this.tickerSettings.tickerColor.value,
@@ -266,59 +279,50 @@
         this.currentSettings = { ...currentSettings }
       },
       async saveTicker() {
-        console.log('saveHeader')
-        const postData = {
-          tickerColor: this.color,
-          tickerFeed: this.feed,
-          tickerFilter: JSON.stringify(this.filter),
-          tickerHeight: this.height,
-          tickerShow: this.show,
-          tickerText: this.speed,
-          tickerTextColor: this.textColor,
-        }
         this.loadingSave = true
-        const resp = await this.$store.dispatch('apiPost', { endpoint: 'manage/settings/ticker', postData })
-        if (resp.status === 'success') {
-          this.$store.dispatch('settingsSet', postData)
-          this.revertSettings()
-        }
+        const tickerSettings = this.formatTickerSettings()
+        this.$store.dispatch('settingsSet', tickerSettings)
+        this.$store.dispatch('boardSettingSet', {
+          ticker: tickerSettings,
+        })
+        this.$store.dispatch('boardSettingsSave')
+        this.revertSettings()
         this.loadingSave = false
-        const { status: color, message } = resp
-        this.$store.dispatch('snackbar', { color, message, value: true })
+        this.$store.dispatch('snackbar', { color: 'success', message: 'Ticker settings saved.', value: true })
       },
       setColor(e = null) {
         this.color = e.hexa || e
-        this.$store.dispatch('tickerSet', { ...this.$store.state.ticker, tickerColor: this.color })
+        this.$store.dispatch('boardSettingSet', {
+          ticker: { ...this.$store.state.boardSettings.ticker, tickerColor: this.color },
+        })
       },
       setHeight(e) {
-        console.log(e)
-        this.$store.dispatch('tickerSet', { ...this.$store.state.ticker, tickerHeight: this.height })
+        this.$store.dispatch('boardSettingSet', {
+          ticker: { ...this.$store.state.boardSettings.ticker, tickerHeight: this.height },
+        })
       },
       setSpeed(e) {
-        this.$store.dispatch('tickerSet', { ...this.$store.state.ticker, tickerSpeed: this.speed })
+        this.$store.dispatch('boardSettingSet', {
+          ticker: { ...this.$store.state.boardSettings.ticker, tickerSpeed: this.speed },
+        })
       },
       setTextColor(e = null) {
         this.textColor = e.hexa || e
-        this.$store.dispatch('tickerSet', { ...this.$store.state.ticker, tickerTextColor: this.textColor })
+        this.$store.dispatch('boardSettingSet', {
+          ticker: { ...this.$store.state.boardSettings.ticker, tickerTextColor: this.textColor },
+        })
       },
-
       toggleTicker() {
-        const ticker = {
-          tickerColor: this.color,
-          tickerFeed: this.feed,
-          tickerFilter: this.filter,
-          tickerImage: this.height,
-          tickerRss: this.feedOptions.find(f => f.id === this.feed).rss,
-          tickerShow: this.show,
-          tickerSpeed: this.speed,
-          tickerTextColor: this.textColor,
-        }
-        this.$store.dispatch('tickerSet', { ...ticker, tickerPreview: !this.tickerPreview })
+        const tickerSettings = this.formatTickerSettings()
+        this.$store.dispatch('boardSettingSet', {
+          ticker: { ...tickerSettings, tickerPreview: !this.tickerPreview },
+        })
       },
     },
     created() {},
     async mounted() {
-      const data = await this.$store.dispatch('apiGet', { endpoint: 'manage/settings/feed' })
+      const localFeedOptions = localStorage.getItem('settings_feed') || false
+      const data = localFeedOptions ? JSON.parse(localFeedOptions) : demoSettings
       this.feedOptions = data?.feedOptions ? data.feedOptions.map(o => ({ ...o, filter: JSON.parse(o.filter) })) : []
       this.filterKeywords = data?.filterKeywords ? [...data.filterKeywords] : []
       this.revertSettings()

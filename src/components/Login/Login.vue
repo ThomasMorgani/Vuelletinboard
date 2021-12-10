@@ -53,8 +53,8 @@
       error: null,
       demoUsername: 'demo',
       demoUsername: 'demo',
-      username: null,
-      password: null,
+      username: 'demo',
+      password: 'demo',
       showPassword: false,
       submitted: false,
     }),
@@ -90,7 +90,6 @@
       },
     },
     mounted() {
-      console.log(this.isLoggedIn)
       const isLoggedIn = localStorage.getItem('isLoggedIn') === 't'
       if (isLoggedIn) {
         this.$store.dispatch('loginDemoUser')

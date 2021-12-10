@@ -17,9 +17,6 @@
       <v-tabs-items v-model="tab">
         <v-tab-item value="image">
           <v-card flat>
-            <!-- <v-card-title class="title primary--text text-left pt-0">
-              Image
-            </v-card-title> -->
             <v-card-text class="pa-0">
               <v-row>
                 <v-col cols="6" d-flex flex-column justify-start>
@@ -162,13 +159,6 @@
       typeSelect: 'URL',
     }),
     computed: {
-      test() {
-        if (this.$refs?.fileInput) {
-          return this.$refs.fileInput
-        } else {
-          return null
-        }
-      },
       inputUrlClearIcon() {
         if (this.inputUrl) {
           if (this.inputUrl === this.item.media_content) {
@@ -184,15 +174,11 @@
         switch (true) {
           case this.inputUrl:
             return { ...this.item, media_content: this.inputUrl, media_content_type: 'url' }
-            break
           case this.item?.content_media_type === 'image' || this.item?.content_media_type === 'image_url':
             return this.item.content_media
-            break
           default:
             return false
-            break
         }
-        return this.data
       },
     },
     methods: {

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import demoUser from '../data/user_demo.json'
 import events from '../data/events.json'
+import settingsAdmin from '../data/settings_admin.json'
 import settingsApp from '../data/settings_app.json'
 import settingsBulletinboard from '../data/settings_bulletinboard.json'
 
@@ -12,9 +13,12 @@ export default new Vuex.Store({
   state: {
     app: {},
     appLoading: true,
-    board: {},
-    header: {},
-    item: {},
+    boardSettings: {
+      board: {},
+      header: {},
+      item: {},
+      ticker: {},
+    },
     items: [],
     snackbar: {
       options: {
@@ -33,7 +37,6 @@ export default new Vuex.Store({
     theme: {},
     user: {},
     roles: ['admin', 'content', 'user'],
-    ticker: {},
   },
   getters: {
     isAdmin(state) {
@@ -83,6 +86,17 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    appSettingSet({ commit, state }, data) {
+      const currSettings = { ...state.app, ...data }
+      localStorage.setItem('settings_app', JSON.stringify(currSettings))
+      commit('COMMIT_APP', currSettings)
+    },
+    boardSettingSet({ commit, state }, data) {
+      commit('COMMIT_BOARD', { ...state.boardSettings, ...data })
+    },
+    boardSettingsSave({ state }) {
+      localStorage.setItem('settings_bulletinboard', JSON.stringify(state.boardSettings))
+    },
     checkAuth({ state }) {
       return state.user?.id !== null
     },
@@ -90,18 +104,20 @@ export default new Vuex.Store({
     headerSet({ commit }, header) {
       commit('COMMIT_HEADER', header)
     },
-
     async init({ commit, dispatch }, $vuetify) {
-      const data = localStorage.getItem('settings_app') || settingsApp
+      const data = {}
+      const localAppSettings = localStorage.getItem('settings_app') || false
+      const localThemeSettings = localStorage.getItem('settings_theme') || false
+      data.app = localAppSettings ? JSON.parse(localAppSettings) : settingsApp.app
+      data.theme = localThemeSettings ? JSON.parse(localThemeSettings) : settingsApp.theme
+      //do same for theme
       if (data.app) {
         commit('COMMIT_APP', data.app)
       }
-
       const isLoggedIn = localStorage.getItem('isLoggedIn') === 't'
       if (isLoggedIn) {
         dispatch('loginDemoUser')
       }
-
       if (data.theme) {
         const darkStored = localStorage.getItem('isDark')
         if (data?.theme) {
@@ -115,17 +131,29 @@ export default new Vuex.Store({
       }
       commit('COMMIT_APPLOADING', false)
     },
-    async initBulletinboard({ commit }) {
-      const localData = localStorage.getItem('settings_bulletinboard') || false
-      const localItems = localStorage.getItem('items') || false
-      const data = localData ? JSON.parse(localData) : settingsBulletinboard
-      data.items = localItems ? JSON.parse(localItems) : events
-      if (data && typeof data === 'object') {
-        for (let item in data) {
-          const mutation = `COMMIT_${item.toUpperCase()}`
-          commit(mutation, data[item])
+    initAdminSettings({ dispatch }) {
+      dispatch('initBulletinboard')
+      const localSettings = localStorage.getItem('settings_admin')
+      return new Promise(async (resolve, reject) => {
+        const settings = localSettings ? JSON.parse(localSettings) : settingsAdmin
+        if (settings) {
+          await dispatch('settingsSet', settings)
+
+          resolve()
         }
-      }
+        reject('Error getting settings')
+      })
+    },
+    async initBulletinboard({ commit, dispatch }) {
+      return new Promise((res, rej) => {
+        const localData = localStorage.getItem('settings_bulletinboard') || false
+        const localItems = localStorage.getItem('items') || false
+        const boardSettings = localData ? JSON.parse(localData) : settingsBulletinboard
+        const items = localItems ? JSON.parse(localItems) : events.items
+        dispatch('boardSettingSet', boardSettings)
+        dispatch('itemsSet', items)
+        res(true)
+      })
     },
     itemSet({ commit }, item) {
       commit('COMMIT_ITEM', item)
@@ -142,9 +170,11 @@ export default new Vuex.Store({
       localStorage.removeItem('isLoggedIn')
     },
     resetDemo() {
-      console.log('setup: reset all demo data, window.location.replace()')
+      localStorage.clear()
+      window.location.replace('/login')
     },
     settingsSet({ commit, state }, settingsValues) {
+      //ADMIN SETTINGS
       return new Promise((res, rej) => {
         let settings = {}
         for (let setting in settingsValues) {
@@ -155,6 +185,7 @@ export default new Vuex.Store({
           if (settings.tickerFilter.value && typeof settings.tickerFilter.value === 'string') settings.tickerFilter.value = JSON.parse(settings.tickerFilter.value)
           if (settings.tickerFilter && typeof settings.tickerFilter === 'string') settings.tickerFilter = JSON.parse(settings.tickerFilter)
         }
+        localStorage.setItem('settings_admin', JSON.stringify({ ...state.settings, ...settings }))
         commit('COMMIT_SETTINGS', { ...state.settings, ...settings })
         res()
       })
@@ -180,6 +211,7 @@ export default new Vuex.Store({
       $vuetify.theme.dark = theme.isDark
       $vuetify.theme.themes.dark = { ...$vuetify.theme.themes.dark, ...theme.dark }
       $vuetify.theme.themes.light = { ...$vuetify.theme.themes.light, ...theme.light }
+      localStorage.setItem('settings_theme', JSON.stringify({ isDark: $vuetify.theme.dark, dark: $vuetify.theme.themes.dark, light: $vuetify.theme.themes.light }))
     },
     tickerSet({ commit }, ticker) {
       commit('COMMIT_TICKER', ticker)
@@ -193,13 +225,13 @@ export default new Vuex.Store({
       state.appLoading = isLoading
     },
     COMMIT_BOARD(state, board) {
-      state.board = { ...board }
+      state.boardSettings = { ...board }
     },
     COMMIT_HEADER(state, header) {
-      state.header = { ...header }
+      state.boardSettings.header = { ...header }
     },
     COMMIT_ITEM(state, item) {
-      state.item = { ...item }
+      state.boardSettings.item = { ...item }
     },
     COMMIT_ITEMS(state, items) {
       state.items = [...items]
@@ -211,7 +243,7 @@ export default new Vuex.Store({
       state.snackbar = { ...snackbar }
     },
     COMMIT_TICKER(state, ticker) {
-      state.ticker = { ...ticker }
+      state.boardSettings.ticker = { ...ticker }
     },
     COMMIT_THEME(state, theme) {
       state.theme = { ...theme }

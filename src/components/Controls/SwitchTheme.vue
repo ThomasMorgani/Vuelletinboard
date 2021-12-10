@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-icon color="primary">mdi-theme-light-dark</v-icon> -->
   <v-switch :prepend-icon="prepend" hide-details :input-value="!$vuetify.theme.isDark" @change="toggleTheme" class="mt-0 px-4"></v-switch>
 </template>
 

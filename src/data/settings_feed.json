@@ -1,0 +1,4 @@
+{
+  "feedOptions": [{ "id": "1", "label": "ABC Top Stories", "rss": "https://abcnews.go.com/abcnews/topstories", "feed": null, "filter": "[\"LIVE:\",\"WATCH:\"]" }],
+  "filterKeywords": ["LIVE:", "WATCH:"]
+}

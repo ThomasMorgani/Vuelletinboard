@@ -17,9 +17,5 @@
   export default {
     name: 'ContentSettings',
     components: { Background, Header, Item, Ticker },
-    methods: {},
-    mounted() {},
   }
 </script>
-
-<style lang="scss" scoped></style>

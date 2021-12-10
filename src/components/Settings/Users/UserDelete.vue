@@ -43,23 +43,8 @@
     },
     methods: {
       deleteUser() {
-        // this.submitted = true
-        this.$store
-          .dispatch('apiGet', {
-            baseurl: process.env.VUE_APP_API_ADMIN_URL,
-            endpoint: 'admin/user/delete/' + this.user.id,
-          })
-          .then(resp => {
-            const { status, message, data } = resp
-            this.$store.dispatch('snackbar', { color: status, message, value: true })
-            if (status === 'success') {
-              console.log('usr deleted')
-              this.$emit('userDeleted', this.user.id)
-            }
-          })
+        this.$emit('userDeleted', this.user.id)
       },
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

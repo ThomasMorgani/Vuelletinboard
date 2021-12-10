@@ -2,7 +2,7 @@
   <v-dialog ref="itemModal" :value="show" max-width="50rem" persistent scrollable transition="dialog-transition">
     <v-card min-height="85vh">
       <v-card-title class="text-title font-weight-bold primary--text">
-        ITEM EDIT
+        {{ item.id ? 'EDIT ITEM' : 'ADD ITEM' }}
       </v-card-title>
       <v-card-text>
         <form action="">
@@ -76,12 +76,6 @@
             </v-col>
             <v-col cols="6">
               <v-select label="Visibility" :items="optionsVisibility" v-model="itemEdit.visible" color="primary">
-                <!-- <template #selection="{item}">
-                  <v-icon left :color="item.color">{{ item.icon }}</v-icon>
-                  <span class="font-weight-bold font-size-medium">
-                    {{ item.text }}
-                  </span>
-                </template> -->
                 <template #prepend>
                   <v-icon left :color="itemEdit.visible ? 'success' : 'error'">{{ itemEdit.visible ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
                 </template>
@@ -93,7 +87,6 @@
                 </template>
               </v-select>
             </v-col>
-
             <v-col cols="6">
               <v-switch :input-value="scheduled" label="Schedule" prepend-icon="mdi-alarm" :messages="scheduled ? scheduleDetail : null" @click="toggleSchedule">
                 <template #append>
@@ -265,12 +258,7 @@
       },
     },
     methods: {
-      test1(e) {
-        console.log(e)
-        // $emit('mediaModalToggle', { item, show: true })
-      },
       itemDelete() {
-        console.log('delete item')
         this.btnLoading = 'delete'
         this.$emit('itemDelete', this.item.id)
         this.$emit('close')
@@ -278,11 +266,11 @@
       },
       itemSave() {
         this.setContentDate()
+        if (!this.itemEdit.id) this.itemEdit.id = new Date().getTime() //gen uniq id hck
         this.$store.dispatch('snackbar', { color: 'success', message: 'Item saved!', value: true })
         this.$emit('itemSave', this.itemEdit)
       },
       onMediaChange({ item, file }) {
-        console.log(item, file)
         this.mediaFile = file
         this.itemEdit = { ...this.itemEdit, ...item }
       },
@@ -347,5 +335,3 @@
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

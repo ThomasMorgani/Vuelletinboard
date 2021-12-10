@@ -21,7 +21,6 @@
         CANCEL
       </v-btn>
       <v-spacer></v-spacer>
-
       <v-btn text color="primary" v-bind="btnSaveState" @click="savePassword">
         SAVE
       </v-btn>
@@ -51,25 +50,8 @@
     },
     methods: {
       savePassword() {
-        // this.submitted = true
-        this.$store
-          .dispatch('apiPost', {
-            baseurl: process.env.VUE_APP_API_ADMIN_URL,
-            endpoint: `admin/user/password/${this.user.id}`,
-            postData: { password: this.password },
-          })
-          .then(resp => {
-            console.log(resp)
-            const { status, message, data } = resp
-            this.$store.dispatch('snackbar', { color: status, message, value: true })
-            if (status === 'success') {
-              console.log('passwd reset ')
-              this.$emit('modalClose')
-            }
-          })
+        this.$emit('userPassword')
       },
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

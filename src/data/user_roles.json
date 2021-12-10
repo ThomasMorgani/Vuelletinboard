@@ -1,0 +1,28 @@
+{
+  "roles": [
+    {
+      "role": "isAdmin",
+      "label": "Admin",
+      "description": "Site administrator. Full access. Overrides individual permissions.",
+      "id": "1"
+    },
+    {
+      "role": "vbContentManage",
+      "label": "Content Editor",
+      "description": "Content editors can add/delete/modify all bulletinboard content.",
+      "id": "2"
+    },
+    {
+      "role": "vbSettingsBulletinboard",
+      "label": "Bulletinboard Settings",
+      "description": "User can change bulletinboard settings (Colors, header, layouts, ticker)",
+      "id": "3"
+    },
+    {
+      "role": "vbSettingsApp",
+      "label": "App Settings",
+      "description": "User can change general app settings (Name, theme).",
+      "id": "4"
+    }
+  ]
+}

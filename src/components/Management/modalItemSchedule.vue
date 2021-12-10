@@ -193,7 +193,6 @@
       },
     },
     mounted(end) {
-      console.log(this.item)
       if (this.item?.scheduleEnd) {
         this.setEnd(this.item.scheduleEnd)
       }
@@ -209,5 +208,3 @@
     },
   }
 </script>
-
-<style lang="scss" scoped></style>

@@ -2,9 +2,7 @@
   <v-card flat>
     <v-card-title class="justify-space-between pt-1 pb-2 pl-0 ">
       <div class="primary--text">DETAILS</div>
-      <!-- <div class="text-h6">{{ `Total: ${counts.totalItems}` }}</div> -->
     </v-card-title>
-    <!-- <v-card :height="100"> -->
     <v-card-text class="d-flex  flex-wrap align-start justify-start">
       <v-sheet v-for="item in countsDisplayed" :key="item.item" class="d-flex align-center justify-start pa-1 mr-4"
         ><v-icon small :color="item.color" left> {{ item.icon }}</v-icon> {{ `${item.count} ${item.text}` }}</v-sheet

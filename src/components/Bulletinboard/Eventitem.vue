@@ -44,7 +44,7 @@
     computed: {
       ...mapState({
         appLoading: state => state.appLoading,
-        settings: state => state.item,
+        settings: state => state.boardSettings.item,
       }),
       activeStyle() {
         // TODO: Add border option
@@ -96,8 +96,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .v-card__text {
-  }
   .item {
     box-sizing: border-box;
     word-wrap: break-word;

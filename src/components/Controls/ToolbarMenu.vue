@@ -1,8 +1,6 @@
 <template>
   <v-toolbar-items transition="scroll-y-transition" class="primary">
-    <!-- <v-btn text class="secondary--text"> <v-icon left>mdi-plus</v-icon>Add New </v-btn> -->
-    <v-btn text class="secondary--text">DEMO: </v-btn>
-
+    <DemoResetBtn />
     <v-btn text class="secondary--text" exact :to="{ name: 'Bulletinboard' }"> <v-icon left>mdi-pin</v-icon>Bulletinboard </v-btn>
     <v-btn v-if="hasRole('vbContentManage')" text class="secondary--text" exact :to="{ name: 'Manage' }"> <v-icon left>mdi-clipboard-text</v-icon>Content </v-btn>
     <v-btn v-if="hasRole('isAdmin')" text class="secondary--text" :to="{ name: 'Settings' }"><v-icon left>mdi-cog</v-icon>ADMIN</v-btn>
@@ -41,12 +39,13 @@
 </template>
 
 <script>
+  import DemoResetBtn from '@/components/Controls/DemoResetBtn'
   import ThemeToggle from '@/components/Controls/SwitchTheme'
   import { mapGetters, mapState } from 'vuex'
   //MAP NAVITEMS TO ROLES TO SHOW
   export default {
     name: 'ToolbarItems',
-    components: { ThemeToggle },
+    components: { DemoResetBtn, ThemeToggle },
     data: () => ({
       navLinks: {},
       userMenu: false,

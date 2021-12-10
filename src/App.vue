@@ -31,10 +31,10 @@
     computed: {
       ...mapState({
         appLoading: state => state.appLoading,
-        headerSettings: state => state.header,
+        headerSettings: state => state.boardSettings.header,
         settings: state => state.settings,
         snackbarStore: state => state.snackbar,
-        ticker: state => state.ticker,
+        ticker: state => state.boardSettings.ticker,
       }),
       headerShown() {
         return this.isBulletinboard ? 'BoardHeader' : 'Header'
@@ -66,7 +66,7 @@
       this.$store.dispatch('init', this.$vuetify)
     },
     created() {
-      console.log('App.vue created ')
+      console.log('Welcome to Vulletinboard :) ')
     },
   }
 </script>
