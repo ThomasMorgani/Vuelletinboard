@@ -32,7 +32,7 @@
           return this.item.content_media
         } else {
           //upload
-          return `${process.env.VUE_APP_MEDIA_URL}/events/${this.item.content_media}`
+          return `${process.env.VUE_APP_MEDIA_URL}events/${this.item.content_media}`
         }
       },
     },

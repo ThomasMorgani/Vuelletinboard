@@ -22,7 +22,7 @@
   import { mapState } from 'vuex'
   import Ticker from '@/components/Bulletinboard/Ticker'
   export default {
-    name: 'Vulletinboard',
+    name: 'Vuelletinboard',
     components: {
       BoardHeader: () => import('@/components/Bulletinboard/Header'),
       Header: () => import('@/components/Layout/Header'),
@@ -53,7 +53,11 @@
           return this.snackbarStore
         },
         set(v) {
-          this.$store.dispatch('snackbar', { color: 'primary', message: '', value: v })
+          this.$store.dispatch('snackbar', {
+            color: 'primary',
+            message: '',
+            value: v,
+          })
         },
       },
       tickerShow() {
@@ -66,7 +70,7 @@
       this.$store.dispatch('init', this.$vuetify)
     },
     created() {
-      console.log('Welcome to Vulletinboard :) ')
+      console.log('Welcome to Vuelletinboard :) ')
     },
   }
 </script>

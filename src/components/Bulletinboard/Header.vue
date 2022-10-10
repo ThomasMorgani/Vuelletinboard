@@ -7,8 +7,10 @@
     </template>
     <v-spacer v-if="alignmentText === 'center'"></v-spacer>
     <v-scroll-y-transition>
-      <v-toolbar-items transition="scroll-x-transition" :style="{ 'background-color': color }">
+      <v-toolbar-items transition="scroll-x-transition" :style="{ 'background-color': color, width: showMenu ? '100%' : '' }">
         <template v-if="showMenu">
+          <v-toolbar-title v-text="text" class="text-h4 align-self-center ml-4"></v-toolbar-title>
+          <v-spacer></v-spacer>
           <!-- <v-btn text class="secondary--text"> <v-icon left>mdi-plus</v-icon>Add New </v-btn> -->
           <DemoResetBtn :color="textStyle.color" />
           <template v-if="$store.getters.isAuth">
@@ -50,7 +52,9 @@
           <v-btn v-else text :color="textStyle.color" exact :to="{ name: 'Login' }"> <v-icon left>mdi-login</v-icon>Login </v-btn>
         </template>
 
-        <v-btn icon @click="menuShow = !menuShow"> <v-icon :color="textStyle.color" v-text="showMenu ? 'mdi-format-horizontal-align-right' : 'mdi-menu-open'"></v-icon> </v-btn>
+        <v-btn icon @click="menuShow = !menuShow">
+          <v-icon :color="textStyle.color" v-text="showMenu ? 'mdi-format-horizontal-align-right' : 'mdi-menu-open'"></v-icon>
+        </v-btn>
       </v-toolbar-items>
     </v-scroll-y-transition>
   </v-app-bar>

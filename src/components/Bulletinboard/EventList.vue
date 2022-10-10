@@ -1,32 +1,6 @@
-<template>
-  <v-sheet id="itemList" ref="itemList" color="transparent" class="itemColumn d-flex flex-column justify-start  ma-1">
-    <v-card flat tile :color="settings.itemListHeaderColor" ref="eventListTitleCard" class="white--text ">
-      <v-card-title class="d-flex justify-space-between headline py-2">
-        <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showPrevious')">mdi-calendar-arrow-left</v-icon>
-        <h4 class="text-h5" :style="headerTextStyle" v-text="settings.itemListHeaderText"></h4>
-        <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showNext')">mdi-calendar-arrow-right</v-icon>
-      </v-card-title>
-    </v-card>
-    <div group class="itemList">
-      <v-sheet color="transparent" height="2" class="eventTop" v-if="items.length > 0"></v-sheet>
-      <transition-group appear name="fade">
-        <EventItem
-          v-for="(item, idx) in items"
-          :key="item.id"
-          :id="`listItem${item.id}`"
-          :item="item"
-          :isActive="idx === 0"
-          @itemClicked="$emit('selectItem', item)"
-          class="eventItem my-1"
-        ></EventItem>
-      </transition-group>
-    </div>
-  </v-sheet>
-</template>
-
 <script>
   import { mapState } from 'vuex'
-  import EventItem from '@/components/Bulletinboard/Eventitem'
+  import EventItem from '@/components/Bulletinboard/EventItem'
 
   export default {
     name: 'EventList',
@@ -71,7 +45,31 @@
     },
   }
 </script>
-
+<template>
+  <v-sheet id="itemList" ref="itemList" color="transparent" class="itemColumn d-flex flex-column justify-start  ma-1">
+    <v-card flat tile :color="settings.itemListHeaderColor" ref="eventListTitleCard" class="white--text ">
+      <v-card-title class="d-flex justify-space-between headline py-2">
+        <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showPrevious')">mdi-calendar-arrow-left</v-icon>
+        <h4 class="text-h5" :style="headerTextStyle" v-text="settings.itemListHeaderText" @click="$store.dispatch('initBulletinboard')"></h4>
+        <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showNext')">mdi-calendar-arrow-right</v-icon>
+      </v-card-title>
+    </v-card>
+    <div group class="itemList">
+      <v-sheet color="transparent" height="2" class="eventTop" v-if="items.length > 0"></v-sheet>
+      <transition-group appear name="fade">
+        <EventItem
+          v-for="(item, idx) in items"
+          :key="item.id"
+          :id="`listItem${item.id}`"
+          :item="item"
+          :isActive="idx === 0"
+          @itemClicked="$emit('selectItem', item)"
+          class="eventItem my-1"
+        ></EventItem>
+      </transition-group>
+    </div>
+  </v-sheet>
+</template>
 <style lang="scss" scoped>
   .itemColumn {
     height: 100%;

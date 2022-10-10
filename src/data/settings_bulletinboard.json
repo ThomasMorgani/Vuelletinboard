@@ -24,7 +24,7 @@
     "boardHeaderHeight": "80",
     "boardHeaderTextColor": "#ffffff",
     "boardHeaderImage": "",
-    "boardHeaderText": "VULLETINBOARD",
+    "boardHeaderText": "VUELLETINBOARD",
     "boardHeaderContentAlign": "start",
     "boardHeaderShow": true,
     "boardHeaderType": "text"
@@ -32,7 +32,10 @@
   "ticker": {
     "tickerColor": "#2C4776",
     "tickerFeed": null,
-    "tickerFilter": ["LIVE:", "WATCH:"],
+    "tickerFilter": [
+      "LIVE:",
+      "WATCH:"
+    ],
     "tickerHeight": "50",
     "tickerShow": true,
     "tickerSpeed": "4",

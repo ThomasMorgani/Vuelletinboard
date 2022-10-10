@@ -1,8 +1,8 @@
-# Vulletinboard
+# Vuelletinboard
+
 Bulletinboard solution using the Vue framework
-  
-  
-Main repo for vue front end.  
-  
-  Backend repos:
-  coming soon
+
+Main repo for vue front end.
+
+Backend repos:
+coming soon

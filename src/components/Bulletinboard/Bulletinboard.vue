@@ -1,7 +1,7 @@
 <template>
   <v-sheet :color="settings.boardBackground" height="100%" ref="contentSheet" width="100%" class="contentSheet d-flex flex-no-wrap align-start justify-start">
     <!--EVENT LIST -->
-    <EventList v-if="!isLoading" @showNext="itemNext" @showPrevious="itemPrevious" @selectItem="itemSelect" class="mt-3"></EventList>
+    <EventList v-if="!isLoading" @showNext="itemNext" @showPrevious="itemPrevious" @selectItem="itemSelect"></EventList>
     <!--IMAGE -->
     <transition name="fade" mode="out-in">
       <EventImage
@@ -17,8 +17,8 @@
 <script>
   import { mapState } from 'vuex'
 
-  import EventList from '@/components/Bulletinboard/Eventlist'
-  import EventImage from '@/components/Bulletinboard/Eventimage'
+  import EventList from '@/components/Bulletinboard/EventList'
+  import EventImage from '@/components/Bulletinboard/EventImage'
 
   export default {
     name: 'Bulletinboard',
@@ -58,7 +58,15 @@
         // const el = this.$el.querySelector(`#listItem${item.id}`)
         const el = this.$el.getElementsByClassName('eventTop')[0]
         if (el) {
-          setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }), 500)
+          setTimeout(
+            () =>
+              el.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'start',
+              }),
+            500,
+          )
         }
         const items = [item, ...this.items.filter(i => i.id != item.id)]
         this.$store.dispatch('itemsSet', items)
