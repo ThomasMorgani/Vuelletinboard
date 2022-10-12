@@ -150,7 +150,10 @@ export default new Vuex.Store({
         const localItems = localStorage.getItem('items') || false
         const boardSettings = localData ? JSON.parse(localData) : settingsBulletinboard
         const items = localItems ? JSON.parse(localItems) : events.items
+        //!hidden, scheduled
+        // const itemsDisplayed = items.filter(i => !i.isHidden)
         dispatch('boardSettingSet', boardSettings)
+        // dispatch('itemsSet', itemsDisplayed)
         dispatch('itemsSet', items)
         res(true)
       })

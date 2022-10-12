@@ -17,12 +17,12 @@
   },
   "board": {
     "boardBackground": "#E6F3FB",
-    "itemTimeout": "7000"
+    "boardItemTimeout": "7000"
   },
   "header": {
     "boardHeaderColor": "#2c4776",
     "boardHeaderHeight": "80",
-    "boardHeaderTextColor": "#ffffff",
+    "boardHeaderTextColor": "#FFFFFF",
     "boardHeaderImage": "",
     "boardHeaderText": "VUELLETINBOARD",
     "boardHeaderContentAlign": "start",

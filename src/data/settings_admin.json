@@ -1,4 +1,84 @@
 {
+  "appName": {
+    "description": "The name of this App",
+    "id": "12",
+    "label": "Name",
+    "name": "appName",
+    "type": "String",
+    "value": "VUELLETINBOARD"
+  },
+  "appHeaderHeight": {
+    "description": "Height of the header for the main app",
+    "id": "40",
+    "label": "App header height",
+    "name": "appHeaderHeight",
+    "type": "Number",
+    "value": "80"
+  },
+  "itemListHeaderText": {
+    "description": "Text shown in item list header",
+    "id": "44",
+    "label": "List title",
+    "name": "itemListHeaderText",
+    "type": "String",
+    "value": "EVENTS"
+  },
+  "itemListHeaderColor": {
+    "description": "Color of the item list header",
+    "id": "45",
+    "label": "List header color",
+    "name": "itemListHeaderColor",
+    "type": "String",
+    "value": "#2C4776"
+  },
+  "itemListHeaderTextColor": {
+    "description": "List header text color",
+    "id": "47",
+    "label": "List header text color",
+    "name": "itemListHeaderTextColor",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextDescriptionActive": {
+    "description": "Item description text color for active item ",
+    "id": "48",
+    "label": "Active description color",
+    "name": "itemTextDescriptionActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextTitleActive": {
+    "description": "Item title text color for active item",
+    "id": "51",
+    "label": "Active title color",
+    "name": "itemTextTitleActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextFooterActive": {
+    "description": "Item footer text color for active item",
+    "id": "53",
+    "label": "Active footer color",
+    "name": "itemTextFooterActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemTextSubtitleActive": {
+    "description": "Item subtitle text color for active item",
+    "id": "54",
+    "label": "Active subtitle color",
+    "name": "itemTextSubtitleActive",
+    "type": "String",
+    "value": "#FFFFFF"
+  },
+  "itemColorActive": {
+    "description": "Background color of the active item card",
+    "id": "56",
+    "label": "Active Item color ",
+    "name": "itemColorActive",
+    "type": "String",
+    "value": "#2C4776"
+  },
   "boardBackground": {
     "description": "The background color of the bulletinboard.",
     "id": "2",
@@ -6,30 +86,6 @@
     "name": "boardBackground",
     "type": "String",
     "value": "#E6F3FB"
-  },
-  "tickerFeed": {
-    "description": "RSS feed source.",
-    "id": "3",
-    "label": "Feed",
-    "name": "tickerFeed",
-    "type": "String",
-    "value": "1"
-  },
-  "tickerFilter": {
-    "description": "Any items containing the following words will be filtered from the feed.",
-    "id": "4",
-    "label": "Filter",
-    "name": "tickerFilter",
-    "type": "String",
-    "value": "[\"LIVE:\",\"WATCH:\"]"
-  },
-  "tickerSpeed": {
-    "description": "Speed in which the ticker scrolls.",
-    "id": "5",
-    "label": "Speed",
-    "name": "tickerSpeed",
-    "type": "Number",
-    "value": "4"
   },
   "boardHeaderShow": {
     "description": "Toggle to hide or show header.",
@@ -61,7 +117,7 @@
     "label": "Text color",
     "name": "boardHeaderTextColor",
     "type": "String",
-    "value": "#2C4776"
+    "value": "#FFFFFF"
   },
   "boardHeaderImage": {
     "description": "Banner image to use for header",
@@ -93,7 +149,7 @@
     "label": "Color",
     "name": "boardHeaderColor",
     "type": "String",
-    "value": "#E6F3FB"
+    "value": "#2C4776"
   },
   "boardHeaderType": {
     "description": "Set style of the header",
@@ -103,13 +159,13 @@
     "type": "String",
     "value": "text"
   },
-  "appName": {
-    "description": "The name of this App",
-    "id": "12",
-    "label": "Name",
-    "name": "appName",
-    "type": "String",
-    "value": "VUELLETINBOARD"
+  "boardItemTimeout": {
+    "description": "Amount of time between events cycled",
+    "id": "18",
+    "label": "Item timeout",
+    "name": "itemTimeout",
+    "type": "Number",
+    "value": "7000"
   },
   "itemColor": {
     "description": "Background color of the item card",
@@ -150,14 +206,6 @@
     "name": "itemTextTitle",
     "type": "String",
     "value": "#2C4776"
-  },
-  "itemTimeout": {
-    "description": "Amount of time between events cycled",
-    "id": "18",
-    "label": "Item timeout",
-    "name": "itemTimeout",
-    "type": "Number",
-    "value": "7000"
   },
   "themeLightPrimary": {
     "description": "Primary color for light theme",
@@ -231,6 +279,30 @@
     "type": "Boolean",
     "value": true
   },
+  "tickerFeed": {
+    "description": "RSS feed source.",
+    "id": "3",
+    "label": "Feed",
+    "name": "tickerFeed",
+    "type": "String",
+    "value": "1"
+  },
+  "tickerFilter": {
+    "description": "Any items containing the following words will be filtered from the feed.",
+    "id": "4",
+    "label": "Filter",
+    "name": "tickerFilter",
+    "type": "String",
+    "value": "[\"LIVE:\",\"WATCH:\"]"
+  },
+  "tickerSpeed": {
+    "description": "Speed in which the ticker scrolls.",
+    "id": "5",
+    "label": "Speed",
+    "name": "tickerSpeed",
+    "type": "Number",
+    "value": "4"
+  },
   "tickerHeight": {
     "description": "Height of the ticker bar",
     "id": "37",
@@ -254,77 +326,5 @@
     "name": "tickerTextColor",
     "type": "String",
     "value": "#FFFFFF"
-  },
-  "appHeaderHeight": {
-    "description": "Height of the header for the main app",
-    "id": "40",
-    "label": "App header height",
-    "name": "appHeaderHeight",
-    "type": "Number",
-    "value": "80"
-  },
-  "itemListHeaderText": {
-    "description": "Text shown in item list header",
-    "id": "44",
-    "label": "List title",
-    "name": "itemListHeaderText",
-    "type": "String",
-    "value": "EVENTS"
-  },
-  "itemListHeaderColor": {
-    "description": "Color of the item list header",
-    "id": "45",
-    "label": "List header color",
-    "name": "itemListHeaderColor",
-    "type": "String",
-    "value": "#2C4776"
-  },
-  "itemListHeaderTextColor": {
-    "description": "List header text color",
-    "id": "47",
-    "label": "List header text color",
-    "name": "itemListHeaderTextColor",
-    "type": "String",
-    "value": "#FFFFFF"
-  },
-  "itemTextDescriptionActive": {
-    "description": "Item description text color for active item ",
-    "id": "48",
-    "label": "Active description color",
-    "name": "itemTextDescriptionActive",
-    "type": "String",
-    "value": "#FFFFFF"
-  },
-  "itemTextTitleActive": {
-    "description": "Item title text color for active item",
-    "id": "51",
-    "label": "Active title color",
-    "name": "itemTextTitleActive",
-    "type": "String",
-    "value": "#FFFFFF"
-  },
-  "itemTextFooterActive": {
-    "description": "Item footer text color for active item",
-    "id": "53",
-    "label": "Active footer color",
-    "name": "itemTextFooterActive",
-    "type": "String",
-    "value": "#FFFFFF"
-  },
-  "itemTextSubtitleActive": {
-    "description": "Item subtitle text color for active item",
-    "id": "54",
-    "label": "Active subtitle color",
-    "name": "itemTextSubtitleActive",
-    "type": "String",
-    "value": "#FFFFFF"
-  },
-  "itemColorActive": {
-    "description": "Background color of the active item card",
-    "id": "56",
-    "label": "Active Item color ",
-    "name": "itemColorActive",
-    "type": "String",
-    "value": "#2C4776"
   }
 }

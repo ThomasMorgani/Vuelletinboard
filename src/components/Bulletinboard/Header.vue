@@ -38,7 +38,7 @@
                     <v-list-item-title class="font-weight-bold">PROFILE</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item @click="logout">
                   <v-list-item-avatar>
                     <v-icon color="primary">mdi-logout-variant</v-icon>
                   </v-list-item-avatar>
@@ -135,6 +135,12 @@
       theme() {
         const { dark, light } = this.$vuetify.theme.themes
         return this.isDark ? dark : light
+      },
+    },
+    methods: {
+      logout() {
+        localStorage.removeItem('isLoggedIn')
+        this.$router.push({ name: 'Login' })
       },
     },
   }

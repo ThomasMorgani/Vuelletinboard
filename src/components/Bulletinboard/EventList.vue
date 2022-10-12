@@ -7,7 +7,20 @@
     components: {
       EventItem,
     },
-    props: ['sheetHeight'],
+    props: {
+      // items: {
+      //   type: Array,
+      //   required: true,
+      // },
+      sheetHeight: {
+        type: [Number, String],
+        required: false,
+      },
+    },
+    data: () => ({
+      listHeight: null,
+      listWidth: null,
+    }),
     computed: {
       ...mapState({
         header: state => state.boardSettings.header,
@@ -22,12 +35,14 @@
       },
     },
     methods: {
-      setHeight() {
+      setDimensions() {
         const list = this.$refs.itemList.$el
         if (this.sheetHeight) {
           list.style.setProperty('height', `${this.sheetHeight}`)
-          list.style.setProperty('z-index', 1)
         }
+        // list.style.setProperty('z-index', 1)
+        this.listWidth = this.sheetWidth = list.clientWidth
+        this.listHeight = this.sheetHeight || list.clientHeight
         return
         // const defaults = {
         //   header: 80,
@@ -41,12 +56,14 @@
       },
     },
     mounted() {
-      this.setHeight()
+      this.setDimensions()
+      //set dimensions
+      //get width, pass has prop
     },
   }
 </script>
 <template>
-  <v-sheet id="itemList" ref="itemList" color="transparent" class="itemColumn d-flex flex-column justify-start  ma-1">
+  <v-sheet id="itemList" ref="itemList" color="transparent" v-resize="setDimensions" class="itemColumn d-flex flex-column justify-start  ma-1 pb-2">
     <v-card flat tile :color="settings.itemListHeaderColor" ref="eventListTitleCard" class="white--text ">
       <v-card-title class="d-flex justify-space-between headline py-2">
         <v-icon :color="settings.itemListHeaderTextColor" @click="$emit('showPrevious')">mdi-calendar-arrow-left</v-icon>
@@ -63,6 +80,7 @@
           :id="`listItem${item.id}`"
           :item="item"
           :isActive="idx === 0"
+          :listWidth="listWidth"
           @itemClicked="$emit('selectItem', item)"
           class="eventItem my-1"
         ></EventItem>
@@ -76,7 +94,7 @@
     width: 30vw;
     max-width: 450px;
     box-sizing: border-box;
-    z-index: 5;
+    // z-index: 5;
   }
 
   .itemList {
@@ -84,6 +102,7 @@
     overflow-y: scroll;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+    z-index: 1;
   }
   .itemList::-webkit-scrollbar {
     display: none;

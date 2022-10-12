@@ -90,7 +90,7 @@
             <v-col cols="6">
               <v-switch :input-value="scheduled" label="Schedule" prepend-icon="mdi-alarm" :messages="scheduled ? scheduleDetail : null" @click="toggleSchedule">
                 <template #append>
-                  <v-dialog v-if="scheduled" ref="modalEventtime" v-model="modalSchedule" :return-value.sync="itemEdit.event_time" persistent width="700px">
+                  <v-dialog v-if="scheduled" ref="modalEventtime" v-model="modalSchedule" persistent width="700px">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn v-bind="attrs" v-on="on" text color="warning">
                         <v-icon left>
@@ -335,3 +335,8 @@
     },
   }
 </script>
+<style scoped>
+  >>> .v-messages__message {
+    line-height: 14px;
+  }
+</style>

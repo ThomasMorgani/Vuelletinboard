@@ -5,25 +5,31 @@
     height="100%"
     class="d-flex flex-column align-center justify-center"
   >
-    <v-card text type="info" width="400" style="position: absolute; top: 10px;">
+    <v-card
+      outlined
+      text
+      type="info"
+      width="500"
+      style="position: absolute; top: 20px;"
+    >
       <v-card-title
         class="text-h5 font-weight-bold primary--text justify-center"
         >DEMO</v-card-title
       >
       <v-card-text
-        class="d-flex flex-column align-center justify-center primary--text font-weight-bold"
+        class="d-flex flex-column align-center justify-center primary--text font-weight-bold pb-0"
       >
         <p>
-          This is a demo version of the Vuelletinboard App.
+          This is a demo version of the Vuelletinboard desktop App.
         </p>
         <p>
           Some features may be unavailable and any changes made to content
           persist only on your local machine.
         </p>
-        <p>
-          To get or contribute checkout:
+        <p class="mb-0">
+          To get or contribute to the full version checkout:
           <a
-            href="https://github.com/ThomasMorgani/Vulletinboard"
+            href="https://github.com/ThomasMorgani/Vuelletinboard/tree/demo"
             target="blank"
             class=""
           >

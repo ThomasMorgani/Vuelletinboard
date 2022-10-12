@@ -2,7 +2,7 @@
 
 Bulletinboard solution using the Vue framework
 
-Main repo for vue front end.
+Demo version for vue front end, client only.
 
-Backend repos:
-coming soon
+For Full version with backend support checkout branch:
+https://github.com/ThomasMorgani/Vuelletinboard
